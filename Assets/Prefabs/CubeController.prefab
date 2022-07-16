@@ -296,8 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: -40
-  jumpHeight: 5
-  closeToGroundHeight: 1.5
+  jumpHeight: 2
 --- !u!54 &2380701015913537639
 Rigidbody:
   m_ObjectHideFlags: 0

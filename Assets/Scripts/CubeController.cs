@@ -154,9 +154,7 @@ public class CubeController : MonoBehaviour
         }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
-        
-        if (!cubePhysics.CloseToGround)
-            StartCoroutine(RollMovement(anchor, axis));
+        StartCoroutine(RollMovement(anchor, axis));
     }
 
     private bool IsJumpInput(Vector3 dir)
