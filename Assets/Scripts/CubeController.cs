@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CubePhysics))]
 public class CubeController : MonoBehaviour
 {
 
@@ -15,22 +16,16 @@ public class CubeController : MonoBehaviour
     public static event DiceSideChanged OnDiceSideChanged;
     
     private bool isMoving;
-    [SerializeField] private float gravity;
 
     private void Start()
     {
-      
+        
     }
 
     private void Update()
     {
         DebugRays();
-        if (!IsGrounded())
-        {
-            //ADD GRAVITY FORCE
-        }    
         CubeMovement();
-        Debug.Log(IsGrounded());    
       
         return;
         if(Input.GetKeyDown(KeyCode.UpArrow)) SetMovementByDirection(Vector3.forward);
@@ -77,15 +72,6 @@ public class CubeController : MonoBehaviour
             var relativeDir = GetRelativeDirection(six.Direction);
             SetMovementByDirection(relativeDir);
         }
-    }
-    private bool IsGrounded()
-    {
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position,Vector3.down,0.55f))
-        {
-            return true;
-        }
-        return false;
     }
     private void GetRelativeNumberPosition()
     {
