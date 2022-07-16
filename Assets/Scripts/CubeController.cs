@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +15,36 @@ public class CubeController : MonoBehaviour
     public static event DiceSideChanged OnDiceSideChanged;
     
     private bool isMoving;
-    
+    [SerializeField] private float gravity;
+
+    private void Start()
+    {
+      
+    }
 
     private void Update()
     {
         DebugRays();
+        if (!IsGrounded())
+        {
+            //ADD GRAVITY FORCE
+        }    
+        CubeMovement();
+        Debug.Log(IsGrounded());    
+      
+        return;
+        if(Input.GetKeyDown(KeyCode.UpArrow)) SetMovementByDirection(Vector3.forward);
+        if(Input.GetKeyDown(KeyCode.DownArrow)) SetMovementByDirection(Vector3.back);
+        if(Input.GetKeyDown(KeyCode.LeftArrow)) SetMovementByDirection(Vector3.left);
+        if(Input.GetKeyDown(KeyCode.RightArrow)) SetMovementByDirection(Vector3.right);
+    }
 
-
+    private void AddFallGravity()
+    {
+        //transform.position = Vector3.
+    }
+    private void CubeMovement()
+    {
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             var relativeDir = GetRelativeDirection(one.Direction);
@@ -53,14 +77,16 @@ public class CubeController : MonoBehaviour
             var relativeDir = GetRelativeDirection(six.Direction);
             SetMovementByDirection(relativeDir);
         }
-        return;
-        if(Input.GetKeyDown(KeyCode.UpArrow)) SetMovementByDirection(Vector3.forward);
-        if(Input.GetKeyDown(KeyCode.DownArrow)) SetMovementByDirection(Vector3.back);
-        if(Input.GetKeyDown(KeyCode.LeftArrow)) SetMovementByDirection(Vector3.left);
-        if(Input.GetKeyDown(KeyCode.RightArrow)) SetMovementByDirection(Vector3.right);
     }
-
-    
+    private bool IsGrounded()
+    {
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position,Vector3.down,0.55f))
+        {
+            return true;
+        }
+        return false;
+    }
     private void GetRelativeNumberPosition()
     {
         var leftDiceSide = GetDiceSideByDirection(Vector3.left);
@@ -71,7 +97,7 @@ public class CubeController : MonoBehaviour
             currentRight = rightDiceSide;
             OnDiceSideChanged?.Invoke(currentLeft,currentRight);
         }
-        Debug.Log("left: "+leftDiceSide.Number + ". right: "+ rightDiceSide.Number);
+        //Debug.Log("left: "+leftDiceSide.Number + ". right: "+ rightDiceSide.Number);
     }
 
     private DiceSide GetDiceSideByDirection(Vector3 direction)
@@ -92,6 +118,7 @@ public class CubeController : MonoBehaviour
     }
     private Vector3 GetRelativeDirection(Vector3 diceSideDir)
     {
+        Debug.Log(diceSideDir);
         if (diceSideDir == Vector3.forward)
             return Vector3.back;
         if (diceSideDir == Vector3.back)
