@@ -60,6 +60,6 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelClear()
     {
-        score = (int) (100 * (1 - handProgression));
+        score += (int) (100 * (1 - handProgression));
     }
 }
