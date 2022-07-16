@@ -12,6 +12,7 @@ public class CubePhysics : MonoBehaviour
     private float JumpSpeed => Mathf.Sqrt(-2f * gravity * jumpHeight);
     
     public bool CloseToGround { get; private set; }
+    public bool PausePhysics { get; set; }
 
     private void Update()
     {
@@ -47,6 +48,9 @@ public class CubePhysics : MonoBehaviour
 
     private void CalculateMovement()
     {
+        if (PausePhysics) 
+            return;
+        
         var movement = new Vector3(0, currentVerticalSpeed, currentForwardSpeed) * Time.deltaTime;
         transform.position += movement;
     }

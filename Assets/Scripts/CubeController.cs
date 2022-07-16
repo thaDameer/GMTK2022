@@ -170,8 +170,7 @@ public class CubeController : MonoBehaviour
 
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
     {
-        Debug.Log($"axis: {axis}");
-        isMoving = true;
+        SetIsMoving(true);
 
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
@@ -180,7 +179,13 @@ public class CubeController : MonoBehaviour
         }
         GetRelativeNumberPosition();
         UpdateTile();
-        isMoving = false;
+        SetIsMoving(false);
+    }
+
+    private void SetIsMoving(bool value)
+    {
+        cubePhysics.PausePhysics = value;
+        isMoving = value;
     }
 
     private void UpdateTile()
