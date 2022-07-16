@@ -40,10 +40,7 @@ public class CubeController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.RightArrow)) TrySetMovementByDirection(Vector3.right);
     }
 
-    private void AddFallGravity()
-    {
-        //transform.position = Vector3.
-    }
+
 
     private bool IsPathBlocked(Vector3 dir)
     {
@@ -52,10 +49,13 @@ public class CubeController : MonoBehaviour
         Debug.DrawRay(transform.position,pathDir * 0.55f,Color.magenta,1);
         if (Physics.Raycast(transform.position, pathDir, out hit,0.55f))
         {
-
+            var obstacle = hit.collider.GetComponent<IObstacle>();
+            if(obstacle!=null)
+                obstacle.Collide(hit.point);
+            
             if (hit.collider.gameObject.tag == "Obstacle")
             {
-                DoBlockAnimation();
+                DoBlockAnimation(dir);
                 //Maybe check for different obstacles
                 return true;
             }
@@ -65,9 +65,11 @@ public class CubeController : MonoBehaviour
         return false;
     }
 
-    private void DoBlockAnimation()
+    private void DoBlockAnimation(Vector3 direction)
     {
-        transform.DOShakeScale(0.3f,0.1f,3,0.4f,true).SetEase(Ease.OutQuint);
+        isMoving = true;
+        transform.DOShakeScale(0.3f,0.1f,3,0.4f,true).SetEase(Ease.OutQuint).OnComplete((() => 
+                isMoving = false));
     }
     private void CubeMovement()
     {
