@@ -146,10 +146,10 @@ public class CubeController : MonoBehaviour
     
     private void TrySetMovementByDirection(Vector3 dir)
     {
-        if (IsTileRestricted()) { currentTile.TileAction(); return; }
         if (isMoving) return;
         if (IsPathBlocked(dir))
             return;
+        if (IsTileRestricted(dir)) { currentTile.TileAction(); return; }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
         StartCoroutine(RollMovement(anchor, axis));
@@ -185,12 +185,11 @@ public class CubeController : MonoBehaviour
         }
 
     }
-    
-    private bool IsTileRestricted()
+    private bool IsTileRestricted(Vector3 dir)
     {
         if (currentTile is Jam)
         {
-            transform.DOShakePosition(0.2f, new Vector3(5,0,5), 1, 15, false, true).SetEase(Ease.OutQuint); 
+            transform.DOShakePosition(0.2f, dir, 10, 15, false, true).SetEase(Ease.OutQuint); 
             return true;
         }
         else return false;
