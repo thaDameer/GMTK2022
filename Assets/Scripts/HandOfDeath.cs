@@ -41,6 +41,7 @@ public class HandOfDeath : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             GameManager.Instance.playerDead = true;
+            GameManager.Instance.OnPlayerDead(); 
             velocity = 0; 
         }
     }
