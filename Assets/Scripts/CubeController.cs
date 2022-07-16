@@ -14,13 +14,16 @@ public class CubeController : MonoBehaviour
     [SerializeField] private DiceSide one, two, three, four, five, six;
     public delegate void DiceSideChanged(DiceSide left, DiceSide right);
     public static event DiceSideChanged OnDiceSideChanged;
-    
+
     private bool isMoving;
     [SerializeField] private float gravity;
 
+    ITile currentTile;
+
+
     private void Start()
     {
-      
+        BaseTile.OnTileComplete += ClearTile;
     }
 
     private void Update()
@@ -29,15 +32,15 @@ public class CubeController : MonoBehaviour
         if (!IsGrounded())
         {
             //ADD GRAVITY FORCE
-        }    
+        }
         CubeMovement();
-        Debug.Log(IsGrounded());    
-      
+        Debug.Log(IsGrounded());
+
         return;
-        if(Input.GetKeyDown(KeyCode.UpArrow)) TrySetMovementByDirection(Vector3.forward);
-        if(Input.GetKeyDown(KeyCode.DownArrow)) TrySetMovementByDirection(Vector3.back);
-        if(Input.GetKeyDown(KeyCode.LeftArrow)) TrySetMovementByDirection(Vector3.left);
-        if(Input.GetKeyDown(KeyCode.RightArrow)) TrySetMovementByDirection(Vector3.right);
+        if (Input.GetKeyDown(KeyCode.UpArrow)) TrySetMovementByDirection(Vector3.forward);
+        if (Input.GetKeyDown(KeyCode.DownArrow)) TrySetMovementByDirection(Vector3.back);
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) TrySetMovementByDirection(Vector3.left);
+        if (Input.GetKeyDown(KeyCode.RightArrow)) TrySetMovementByDirection(Vector3.right);
     }
 
     private void AddFallGravity()
@@ -49,8 +52,8 @@ public class CubeController : MonoBehaviour
     {
         RaycastHit hit;
         var pathDir = dir;
-        Debug.DrawRay(transform.position,pathDir * 0.55f,Color.magenta,1);
-        if (Physics.Raycast(transform.position, pathDir, out hit,0.55f))
+        Debug.DrawRay(transform.position, pathDir * 0.55f, Color.magenta, 1);
+        if (Physics.Raycast(transform.position, pathDir, out hit, 0.55f))
         {
 
             if (hit.collider.gameObject.tag == "Obstacle")
@@ -59,7 +62,7 @@ public class CubeController : MonoBehaviour
                 //Maybe check for different obstacles
                 return true;
             }
-           
+
         }
 
         return false;
@@ -67,7 +70,7 @@ public class CubeController : MonoBehaviour
 
     private void DoBlockAnimation()
     {
-        transform.DOShakeScale(0.3f,0.1f,3,0.4f,true).SetEase(Ease.OutQuint);
+        transform.DOShakeScale(0.3f, 0.1f, 3, 0.4f, true).SetEase(Ease.OutQuint);
     }
     private void CubeMovement()
     {
@@ -84,13 +87,13 @@ public class CubeController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
             var relativeDir = GetRelativeDirection(three.Direction);
-        
+
             TrySetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
         {
             var relativeDir = GetRelativeDirection(four.Direction);
-            
+
             TrySetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
@@ -107,7 +110,7 @@ public class CubeController : MonoBehaviour
     private bool IsGrounded()
     {
         RaycastHit hit;
-        if(Physics.Raycast(transform.position,Vector3.down,0.55f))
+        if (Physics.Raycast(transform.position, Vector3.down, 0.55f))
         {
             return true;
         }
@@ -121,7 +124,7 @@ public class CubeController : MonoBehaviour
         {
             currentLeft = leftDiceSide;
             currentRight = rightDiceSide;
-            OnDiceSideChanged?.Invoke(currentLeft,currentRight);
+            OnDiceSideChanged?.Invoke(currentLeft, currentRight);
         }
         //Debug.Log("left: "+leftDiceSide.Number + ". right: "+ rightDiceSide.Number);
     }
@@ -159,20 +162,21 @@ public class CubeController : MonoBehaviour
     }
     private void DebugRays()
     {
-        Debug.DrawRay(transform.position,one.Direction * 2, Color.cyan);
-        Debug.DrawRay(transform.position,two.Direction *2,Color.blue);
-        
-        Debug.DrawRay(transform.position,three.Direction *2, Color.green);
-        Debug.DrawRay(transform.position,four.Direction *2, Color.magenta);
-        
-        Debug.DrawRay(transform.position,five.Direction *2, Color.red);
-        Debug.DrawRay(transform.position,six.Direction *2, Color.yellow);
+        Debug.DrawRay(transform.position, one.Direction * 2, Color.cyan);
+        Debug.DrawRay(transform.position, two.Direction * 2, Color.blue);
+
+        Debug.DrawRay(transform.position, three.Direction * 2, Color.green);
+        Debug.DrawRay(transform.position, four.Direction * 2, Color.magenta);
+
+        Debug.DrawRay(transform.position, five.Direction * 2, Color.red);
+        Debug.DrawRay(transform.position, six.Direction * 2, Color.yellow);
 
     }
     private void TrySetMovementByDirection(Vector3 dir)
     {
-        if(isMoving) return;
-        if(IsPathBlocked(dir))
+        if (IsTileRestricted()) { currentTile.TileAction(); return; }
+        if (isMoving) return;
+        if (IsPathBlocked(dir))
             return;
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
@@ -182,19 +186,57 @@ public class CubeController : MonoBehaviour
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
     {
         isMoving = true;
-        
+
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
-            transform.RotateAround(anchor,axis,movementSpeed);
+            transform.RotateAround(anchor, axis, movementSpeed);
             yield return new WaitForSeconds(0.01f);
         }
         GetRelativeNumberPosition();
+        UpdateTile();
         isMoving = false;
+    }
+
+    private void UpdateTile()
+    {
+        RaycastHit hit;
+
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.55f))
+        {
+            var tile = hit.collider.gameObject.GetComponent<ITile>();
+            if (tile != null)
+            {
+                currentTile = tile;
+                currentTile.EnterTile();
+            }
+            else currentTile = null;
+        }
+
+    }
+    private bool IsTileRestricted()
+    {
+        if (currentTile is Jam)
+        {
+            transform.DOShakePosition(0.2f, new Vector3(5,0,5), 1, 15, false, true).SetEase(Ease.OutQuint); 
+            return true;
+        }
+        else return false;
+    }
+
+    private void ClearTile()
+    {
+        currentTile = null;
     }
 
     private void UpdateDiceRelation()
     {
-        
+
     }
-    
+
+    private void OnDestroy()
+    {
+        BaseTile.OnTileComplete -= ClearTile;
+    }
+
 }
