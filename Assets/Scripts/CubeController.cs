@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,21 +7,14 @@ public class CubeController : MonoBehaviour
 
     [SerializeField] private float movementSpeed = 10f;
 
-    private Vector3 dir6 => -transform.forward;
-    private Vector3 dir1 => transform.forward;
+    private DiceSide currentLeft, currentRight;
 
-    private Vector3 dir4 => transform.up;
-    private Vector3 dir3 => -transform.up;
-
-    private Vector3 dir2 => -transform.right;
-    private Vector3 dir5 => transform.right;
+    [SerializeField] private DiceSide one, two, three, four, five, six;
+    
+    
     
     private bool isMoving;
-
-    private void Awake()
-    {
-       
-    }
+    
 
     private void Update()
     {
@@ -31,34 +23,34 @@ public class CubeController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
-            var relativeDir = GetRelativeDirection(dir1);
+            var relativeDir = GetRelativeDirection(one.Direction);
             SetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
         {
-            var relativeDir = GetRelativeDirection(dir2);
+            var relativeDir = GetRelativeDirection(two.Direction);
             SetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
-            var relativeDir = GetRelativeDirection(dir3);
+            var relativeDir = GetRelativeDirection(three.Direction);
         
             SetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
         {
-            var relativeDir = GetRelativeDirection(dir4);
+            var relativeDir = GetRelativeDirection(four.Direction);
             
             SetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
         {
-            var relativeDir = GetRelativeDirection(dir5);
+            var relativeDir = GetRelativeDirection(five.Direction);
             SetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
         {
-            var relativeDir = GetRelativeDirection(dir6);
+            var relativeDir = GetRelativeDirection(six.Direction);
             SetMovementByDirection(relativeDir);
         }
         return;
@@ -68,6 +60,35 @@ public class CubeController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.RightArrow)) SetMovementByDirection(Vector3.right);
     }
 
+    
+    private void GetRelativeNumberPosition()
+    {
+        var leftDiceSide = GetDiceSideByDirection(Vector3.left);
+        var rightDiceSide = GetDiceSideByDirection(Vector3.right);
+        if (currentLeft != leftDiceSide || rightDiceSide != currentRight)
+        {
+            currentLeft = leftDiceSide;
+            currentRight = rightDiceSide;
+        }
+        Debug.Log("left: "+leftDiceSide.Number + ". right: "+ rightDiceSide.Number);
+    }
+
+    private DiceSide GetDiceSideByDirection(Vector3 direction)
+    {
+        if (one.Direction == direction)
+            return one;
+        if (two.Direction == direction)
+            return two;
+        if (three.Direction == direction)
+            return three;
+        if (four.Direction == direction)
+            return four;
+        if (five.Direction == direction)
+            return five;
+        if (six.Direction == direction)
+            return six;
+        return null;
+    }
     private Vector3 GetRelativeDirection(Vector3 diceSideDir)
     {
         if (diceSideDir == Vector3.forward)
@@ -84,14 +105,14 @@ public class CubeController : MonoBehaviour
     }
     private void DebugRays()
     {
-        Debug.DrawRay(transform.position,dir1 * 2, Color.cyan);
-        Debug.DrawRay(transform.position,dir6 *2,Color.blue);
+        Debug.DrawRay(transform.position,one.Direction * 2, Color.cyan);
+        Debug.DrawRay(transform.position,two.Direction *2,Color.blue);
         
-        Debug.DrawRay(transform.position,dir2 *2, Color.green);
-        Debug.DrawRay(transform.position,dir5 *2, Color.magenta);
+        Debug.DrawRay(transform.position,three.Direction *2, Color.green);
+        Debug.DrawRay(transform.position,four.Direction *2, Color.magenta);
         
-        Debug.DrawRay(transform.position,dir4 *2, Color.red);
-        Debug.DrawRay(transform.position,dir3 *2, Color.yellow);
+        Debug.DrawRay(transform.position,five.Direction *2, Color.red);
+        Debug.DrawRay(transform.position,six.Direction *2, Color.yellow);
 
     }
     private void SetMovementByDirection(Vector3 dir)
@@ -112,8 +133,13 @@ public class CubeController : MonoBehaviour
             transform.RotateAround(anchor,axis,movementSpeed);
             yield return new WaitForSeconds(0.01f);
         }
-        
+        GetRelativeNumberPosition();
         isMoving = false;
     }
-}
 
+    private void UpdateDiceRelation()
+    {
+        
+    }
+    
+}
