@@ -24,17 +24,12 @@ public class CubeController : MonoBehaviour
     {
         BaseTile.OnTileComplete += ClearTile;
         cubePhysics = GetComponent<CubePhysics>();
+        GetRelativeNumberPosition();
     }
 
     private void Update()
     {
         CubeMovement();
-
-        return;
-        if (Input.GetKeyDown(KeyCode.UpArrow)) TryExecuteMovementByDirection(Vector3.forward);
-        if (Input.GetKeyDown(KeyCode.DownArrow)) TryExecuteMovementByDirection(Vector3.back);
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) TryExecuteMovementByDirection(Vector3.left);
-        if (Input.GetKeyDown(KeyCode.RightArrow)) TryExecuteMovementByDirection(Vector3.right);
     }
 
     private bool IsPathBlocked(Vector3 dir)
@@ -155,6 +150,7 @@ public class CubeController : MonoBehaviour
         if (IsJumpInput(dir))
         {
             cubePhysics.TryJump();
+            return;
         }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
@@ -199,7 +195,7 @@ public class CubeController : MonoBehaviour
             {
                 currentTile = tile;
                 currentTile.EnterTile();
-
+                TryExecuteOnEnterTileAction(currentTile);
                 if (currentTile is RotateTile) transform.DORotate(Vector3.up*90, 0.4f, RotateMode.WorldAxisAdd);
             }
             else currentTile = null;
@@ -233,11 +229,7 @@ public class CubeController : MonoBehaviour
     {
         currentTile = null;
     }
-
-    private void UpdateDiceRelation()
-    {
-
-    }
+    
 
     private void OnDestroy()
     {
