@@ -132,7 +132,6 @@ public class CubeController : MonoBehaviour
     
     private Vector3 GetRelativeDirection(Vector3 diceSideDir)
     {
-        Debug.Log(diceSideDir);
         if (diceSideDir == Vector3.forward)
             return Vector3.back;
         if (diceSideDir == Vector3.back)
@@ -159,7 +158,9 @@ public class CubeController : MonoBehaviour
         }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
-        StartCoroutine(RollMovement(anchor, axis));
+        
+        if (!cubePhysics.CloseToGround)
+            StartCoroutine(RollMovement(anchor, axis));
     }
 
     private bool IsJumpInput(Vector3 dir)
@@ -169,6 +170,7 @@ public class CubeController : MonoBehaviour
 
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
     {
+        Debug.Log($"axis: {axis}");
         isMoving = true;
 
         for (int i = 0; i < 90 / movementSpeed; i++)
