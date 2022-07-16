@@ -9,7 +9,7 @@ public class HandOfDeath : MonoBehaviour
     public float levelLength;
     public float velocity;
 
-    public GameObject StartPos, EndPos;
+    public GameObject StartPos, EndPos, Player;
 
     public float levelProgression;
 
@@ -18,6 +18,7 @@ public class HandOfDeath : MonoBehaviour
     {
         StartPos = GameManager.Instance.startPos; //GET FROM GAMEMANAGER
         EndPos = GameManager.Instance.endPos;
+        Player = GameObject.FindWithTag("Player"); 
 
         transform.position = StartPos.transform.position;
 
@@ -34,6 +35,15 @@ public class HandOfDeath : MonoBehaviour
 
         levelProgression = transform.position.z / levelLength;
         GameManager.Instance.handProgression = levelProgression;
+
+        if (Player == null) return;
+
+        var xPos = Player.transform.position.x;
+        var xVec = new Vector3(xPos, transform.position.y, transform.position.z);
+        var horizontalSpeed = 1;
+        transform.position = Vector3.MoveTowards(transform.position, xVec, horizontalSpeed * Time.deltaTime); 
+
+
     }
 
     private void OnTriggerEnter(Collider other)
