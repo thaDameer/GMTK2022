@@ -997,6 +997,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66eb6c9ed511c254fbc28b42a4cc96a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  successParticle: {fileID: 0}
+  successAudio: {fileID: 0}
+  movingObject: {fileID: 0}
   _number: 1
   _images:
   - {fileID: 4208360614133472413}
