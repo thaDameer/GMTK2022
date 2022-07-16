@@ -42,11 +42,13 @@ public class CubeController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
             var relativeDir = GetRelativeDirection(dir3);
+        
             SetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
         {
             var relativeDir = GetRelativeDirection(dir4);
+            
             SetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
@@ -104,7 +106,7 @@ public class CubeController : MonoBehaviour
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
     {
         isMoving = true;
-
+        
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
             transform.RotateAround(anchor,axis,movementSpeed);
@@ -114,3 +116,4 @@ public class CubeController : MonoBehaviour
         isMoving = false;
     }
 }
+
