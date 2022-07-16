@@ -45,8 +45,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.61, y: 0.31, z: 1.67}
-  m_Center: {x: 0.64, y: 0, z: 0}
+  m_Size: {x: 2, y: 0.25, z: 1}
+  m_Center: {x: 0.55, y: 0, z: 0}
 --- !u!114 &4090555712361842963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +75,18 @@ PrefabInstance:
     - target: {fileID: 6910666416243329351, guid: 761f52c9923fea141879962a03e7a63b, type: 3}
       propertyPath: m_RootOrder
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6910666416243329351, guid: 761f52c9923fea141879962a03e7a63b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6910666416243329351, guid: 761f52c9923fea141879962a03e7a63b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6910666416243329351, guid: 761f52c9923fea141879962a03e7a63b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 6910666416243329351, guid: 761f52c9923fea141879962a03e7a63b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -115,6 +127,10 @@ PrefabInstance:
     - target: {fileID: 6910666416243329351, guid: 761f52c9923fea141879962a03e7a63b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6910666416243329351, guid: 761f52c9923fea141879962a03e7a63b, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
