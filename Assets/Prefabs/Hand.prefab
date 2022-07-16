@@ -32,7 +32,11 @@ Transform:
   m_Children:
   - {fileID: 1317047788682603636}
   m_Father: {fileID: 0}
+<<<<<<< Updated upstream
   m_RootOrder: 9
+=======
+  m_RootOrder: 0
+>>>>>>> Stashed changes
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7403841242094848983
 BoxCollider:
@@ -45,8 +49,13 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
+<<<<<<< Updated upstream
   m_Size: {x: -3.32, y: 1, z: 1}
   m_Center: {x: -0.33, y: 0, z: -3.5}
+=======
+  m_Size: {x: -4.79, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: -2.5}
+>>>>>>> Stashed changes
 --- !u!114 &7403841242094848982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +74,11 @@ MonoBehaviour:
   StartPos: {fileID: 0}
   EndPos: {fileID: 0}
   Player: {fileID: 0}
+<<<<<<< Updated upstream
   HandModel: {fileID: 1805036700403218126}
+=======
+  HandModel: {fileID: 0}
+>>>>>>> Stashed changes
   levelProgression: 0
 --- !u!1001 &7403841241263016575
 PrefabInstance:
