@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class CubeController : MonoBehaviour
@@ -24,7 +25,7 @@ public class CubeController : MonoBehaviour
 
     private void Update()
     {
-        DebugRays();
+        //DebugRays();
         if (!IsGrounded())
         {
             //ADD GRAVITY FORCE
@@ -33,49 +34,74 @@ public class CubeController : MonoBehaviour
         Debug.Log(IsGrounded());    
       
         return;
-        if(Input.GetKeyDown(KeyCode.UpArrow)) SetMovementByDirection(Vector3.forward);
-        if(Input.GetKeyDown(KeyCode.DownArrow)) SetMovementByDirection(Vector3.back);
-        if(Input.GetKeyDown(KeyCode.LeftArrow)) SetMovementByDirection(Vector3.left);
-        if(Input.GetKeyDown(KeyCode.RightArrow)) SetMovementByDirection(Vector3.right);
+        if(Input.GetKeyDown(KeyCode.UpArrow)) TrySetMovementByDirection(Vector3.forward);
+        if(Input.GetKeyDown(KeyCode.DownArrow)) TrySetMovementByDirection(Vector3.back);
+        if(Input.GetKeyDown(KeyCode.LeftArrow)) TrySetMovementByDirection(Vector3.left);
+        if(Input.GetKeyDown(KeyCode.RightArrow)) TrySetMovementByDirection(Vector3.right);
     }
 
     private void AddFallGravity()
     {
         //transform.position = Vector3.
     }
+
+    private bool IsPathBlocked(Vector3 dir)
+    {
+        RaycastHit hit;
+        var pathDir = dir;
+        Debug.DrawRay(transform.position,pathDir * 0.55f,Color.magenta,1);
+        if (Physics.Raycast(transform.position, pathDir, out hit,0.55f))
+        {
+
+            if (hit.collider.gameObject.tag == "Obstacle")
+            {
+                DoBlockAnimation();
+                //Maybe check for different obstacles
+                return true;
+            }
+           
+        }
+
+        return false;
+    }
+
+    private void DoBlockAnimation()
+    {
+        transform.DOShakeScale(0.3f,0.1f,3,0.4f,true).SetEase(Ease.OutQuint);
+    }
     private void CubeMovement()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             var relativeDir = GetRelativeDirection(one.Direction);
-            SetMovementByDirection(relativeDir);
+            TrySetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
         {
             var relativeDir = GetRelativeDirection(two.Direction);
-            SetMovementByDirection(relativeDir);
+            TrySetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
             var relativeDir = GetRelativeDirection(three.Direction);
         
-            SetMovementByDirection(relativeDir);
+            TrySetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
         {
             var relativeDir = GetRelativeDirection(four.Direction);
             
-            SetMovementByDirection(relativeDir);
+            TrySetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
         {
             var relativeDir = GetRelativeDirection(five.Direction);
-            SetMovementByDirection(relativeDir);
+            TrySetMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
         {
             var relativeDir = GetRelativeDirection(six.Direction);
-            SetMovementByDirection(relativeDir);
+            TrySetMovementByDirection(relativeDir);
         }
     }
     private bool IsGrounded()
@@ -143,10 +169,11 @@ public class CubeController : MonoBehaviour
         Debug.DrawRay(transform.position,six.Direction *2, Color.yellow);
 
     }
-    private void SetMovementByDirection(Vector3 dir)
+    private void TrySetMovementByDirection(Vector3 dir)
     {
         if(isMoving) return;
-        
+        if(IsPathBlocked(dir))
+            return;
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
         StartCoroutine(RollMovement(anchor, axis));
