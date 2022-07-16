@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class CubeController : MonoBehaviour
     public delegate void DiceSideChanged(DiceSide left, DiceSide right);
     public static event DiceSideChanged OnDiceSideChanged;
 
+    private CubePhysics cubePhysics;
     private bool isMoving;
 
     ITile currentTile;
@@ -21,17 +23,13 @@ public class CubeController : MonoBehaviour
     private void Start()
     {
         BaseTile.OnTileComplete += ClearTile;
+        cubePhysics = GetComponent<CubePhysics>();
+        GetRelativeNumberPosition();
     }
 
     private void Update()
     {
         CubeMovement();
-      
-        return;
-        if (Input.GetKeyDown(KeyCode.UpArrow)) TrySetMovementByDirection(Vector3.forward);
-        if (Input.GetKeyDown(KeyCode.DownArrow)) TrySetMovementByDirection(Vector3.back);
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) TrySetMovementByDirection(Vector3.left);
-        if (Input.GetKeyDown(KeyCode.RightArrow)) TrySetMovementByDirection(Vector3.right);
     }
 
     private bool IsPathBlocked(Vector3 dir)
@@ -41,9 +39,13 @@ public class CubeController : MonoBehaviour
         Debug.DrawRay(transform.position, pathDir * 0.55f, Color.magenta, 1);
         if (Physics.Raycast(transform.position, pathDir, out hit, 0.55f))
         {
+            var obstacle = hit.collider.GetComponent<IObstacle>();
+            if (obstacle != null)
+                obstacle.Collide(hit.point);
+
             if (hit.collider.gameObject.tag == "Obstacle")
             {
-                DoBlockAnimation();
+                DoBlockAnimation(dir);
                 //Maybe check for different obstacles
                 return true;
             }
@@ -52,46 +54,48 @@ public class CubeController : MonoBehaviour
         return false;
     }
 
-    private void DoBlockAnimation()
+    private void DoBlockAnimation(Vector3 direction)
     {
-        transform.DOShakeScale(0.3f, 0.1f, 3, 0.4f, true).SetEase(Ease.OutQuint);
+        isMoving = true;
+        transform.DOShakeScale(0.3f, 0.1f, 3, 0.4f, true).SetEase(Ease.OutQuint).OnComplete((() =>
+                isMoving = false));
     }
     private void CubeMovement()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             var relativeDir = GetRelativeDirection(one.Direction);
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
         {
             var relativeDir = GetRelativeDirection(two.Direction);
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
             var relativeDir = GetRelativeDirection(three.Direction);
 
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
         {
             var relativeDir = GetRelativeDirection(four.Direction);
 
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
         {
             var relativeDir = GetRelativeDirection(five.Direction);
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
         {
             var relativeDir = GetRelativeDirection(six.Direction);
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
     }
-    
+
     private void GetRelativeNumberPosition()
     {
         var leftDiceSide = GetDiceSideByDirection(Vector3.left);
@@ -120,10 +124,9 @@ public class CubeController : MonoBehaviour
             return six;
         return null;
     }
-    
+
     private Vector3 GetRelativeDirection(Vector3 diceSideDir)
     {
-        Debug.Log(diceSideDir);
         if (diceSideDir == Vector3.forward)
             return Vector3.back;
         if (diceSideDir == Vector3.back)
@@ -137,20 +140,31 @@ public class CubeController : MonoBehaviour
         return diceSideDir == Vector3.left ? Vector3.right : Vector3.zero;
     }
     
-    private void TrySetMovementByDirection(Vector3 dir)
+    private void TryExecuteMovementByDirection(Vector3 dir)
     {
-        if (IsTileRestricted()) { currentTile.TileAction(); return; }
         if (isMoving) return;
         if (IsPathBlocked(dir))
             return;
+        if (IsTileRestricted(dir)) { currentTile.TileAction(); return; }
+
+        if (IsJumpInput(dir))
+        {
+            cubePhysics.TryJump();
+            return;
+        }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
         StartCoroutine(RollMovement(anchor, axis));
     }
 
+    private bool IsJumpInput(Vector3 dir)
+    {
+        return dir == Vector3.up;
+    }
+
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
     {
-        isMoving = true;
+        SetIsMoving(true);
 
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
@@ -159,7 +173,13 @@ public class CubeController : MonoBehaviour
         }
         GetRelativeNumberPosition();
         UpdateTile();
-        isMoving = false;
+        SetIsMoving(false);
+    }
+
+    private void SetIsMoving(bool value)
+    {
+        cubePhysics.PausePhysics = value;
+        isMoving = value;
     }
 
     private void UpdateTile()
@@ -173,17 +193,31 @@ public class CubeController : MonoBehaviour
             {
                 currentTile = tile;
                 currentTile.EnterTile();
+                TryExecuteOnEnterTileAction(currentTile);
+                if (currentTile is RotateTile) transform.DORotate(Vector3.up*90, 0.4f, RotateMode.WorldAxisAdd);
             }
             else currentTile = null;
         }
 
     }
-    
-    private bool IsTileRestricted()
+
+    private void TryExecuteOnEnterTileAction(ITile iTile)
+    {
+        switch (iTile)
+        {
+            case Jam jam:
+                break;
+            case NumberTile numberTile:
+                var diceSide = GetDiceSideByDirection(Vector3.down);
+                numberTile.TryMatchDiceSide(diceSide);
+                break;
+        }
+    }
+    private bool IsTileRestricted(Vector3 dir)
     {
         if (currentTile is Jam)
         {
-            transform.DOShakePosition(0.2f, new Vector3(5,0,5), 1, 15, false, true).SetEase(Ease.OutQuint); 
+            transform.DOShakePosition(0.2f, dir, 10, 15, false, true).SetEase(Ease.OutQuint);
             return true;
         }
         else return false;
@@ -193,11 +227,7 @@ public class CubeController : MonoBehaviour
     {
         currentTile = null;
     }
-
-    private void UpdateDiceRelation()
-    {
-
-    }
+    
 
     private void OnDestroy()
     {

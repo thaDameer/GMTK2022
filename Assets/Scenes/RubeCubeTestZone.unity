@@ -476,7 +476,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: 0.21118565, y: -0.036014624, z: 0.0077868043, w: 0.97675127}
+  m_LocalRotation: {x: 0.2112246, y: -0.030739697, z: 0.0066463007, w: 0.9769315}
   m_LocalPosition: {x: 0, y: 8.63, z: -8.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -575,7 +575,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786238737}
-  m_LocalRotation: {x: 0.21118565, y: -0.036014624, z: 0.0077868043, w: 0.97675127}
+  m_LocalRotation: {x: 0.2112246, y: -0.030739697, z: 0.0066463007, w: 0.9769315}
   m_LocalPosition: {x: 0, y: 8.63, z: -8.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -613,7 +613,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0861244, y: 1}
+    m_SensorSize: {x: 1.7795918, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -702,7 +702,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: NaN, z: 0, w: -2.4042328e+32}
+  m_BoundingSphereOverride: {x: 0, y: 3.4e-44, z: 0, w: -2.4042328e+32}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -797,14 +797,6 @@ PrefabInstance:
     - target: {fileID: 606887513448873622, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2058655571757295153, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
-      propertyPath: gravity
-      value: -20
-      objectReference: {fileID: 0}
-    - target: {fileID: 2058655571757295153, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
-      propertyPath: jumpHeight
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

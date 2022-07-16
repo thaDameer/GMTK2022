@@ -61,7 +61,7 @@ public class HandOfDeath : MonoBehaviour
 
     private void ScaleUpHand()
     {
-        HandModel.transform.localScale += new Vector3(1, 1, 0)*10 * Time.deltaTime; 
+        HandModel.transform.localScale += new Vector3(1, 1, 0)*100 * Time.deltaTime; 
     }
 
     public void IncreaseVelocity()
