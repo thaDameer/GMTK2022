@@ -11,7 +11,7 @@ public class InputUIView : MonoBehaviour
     [SerializeField] private TMP_Text leftText, rightText;
     
     
-    void Start()
+    void Awake()
     {
         CubeController.OnDiceSideChanged += UpdatedDiceView;
     }
