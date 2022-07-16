@@ -135,14 +135,14 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _Tiling: 0.05
-    - _UseLines: 0
+    - _UseLines: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CheckerColor1: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
     - _CheckerColor2: {r: 1, g: 1, b: 1, a: 1}
-    - _CheckerOffset: {r: 0.2, g: 0.3, b: 0, a: 0}
+    - _CheckerOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
