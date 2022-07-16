@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoalTile : MonoBehaviour
+public class GoalTile : BaseTile
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void EnterTile()
+    {
+        GameManager.Instance.levelCleared = true;
+        GameManager.Instance.OnLevelClear(); 
+    }
+
+    public override void TileAction()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

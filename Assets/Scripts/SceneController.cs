@@ -40,5 +40,10 @@ public class SceneController : ScriptableObject
         SceneManager.LoadScene(scenes[0].name);
     }
 
+    public void Quit()
+    {
+        Application.Quit(); 
+    }
+
     private bool IndexIsValid(int index) => index <= scenes.Length;
 }

@@ -16,7 +16,7 @@ public class HandOfDeath : MonoBehaviour
 
     void Start()
     {
-        StartPos = GameManager.Instance.startPos; //GET FROM GAMEMANAGER
+        StartPos = GameManager.Instance.startPos;
         EndPos = GameManager.Instance.endPos;
         Player = GameObject.FindWithTag("Player"); 
 
@@ -30,6 +30,7 @@ public class HandOfDeath : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (transform.position.z >= EndPos.transform.position.z) return;
         transform.Translate(Vector3.forward * velocity * Time.deltaTime);
 
@@ -61,7 +62,7 @@ public class HandOfDeath : MonoBehaviour
 
     private void ScaleUpHand()
     {
-        HandModel.transform.localScale += new Vector3(1, 1, 0)*100 * Time.deltaTime; 
+        HandModel.transform.localScale += new Vector3(1, 1, 0)*500 * Time.deltaTime; 
     }
 
     public void IncreaseVelocity()

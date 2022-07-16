@@ -18,6 +18,8 @@ public class CubeController : MonoBehaviour
     private CubePhysics cubePhysics;
     private bool isMoving;
 
+    public bool isActive = true; 
+
     ITile currentTile;
 
     private void Start()
@@ -29,6 +31,7 @@ public class CubeController : MonoBehaviour
 
     private void Update()
     {
+        if (!isActive) return; 
         CubeMovement();
     }
 
