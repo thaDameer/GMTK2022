@@ -54,7 +54,7 @@ public class MeshDeformer : MonoBehaviour
         playerPosition = playerTransform;
         meshRenderer.material.SetVector("_DicePosition", (Vector4)playerPosition.position);
         meshRenderer.material.SetFloat("_RippleStartTime", Time.time);
-        displacementAmount += force;
+        displacementAmount = force;
         if (SplashParticleSystem)
             SplashParticleSystem.Play();
     }
