@@ -32,6 +32,8 @@ public class SceneController : ScriptableObject
         SceneManager.LoadScene(scenes[index].name);
     }
 
+    public void RestartActiveLevel() => SceneManager.LoadScene(scenes[activeIndex].name);
+
     public void LoadMainMenu()
     {
         activeIndex = 0;
