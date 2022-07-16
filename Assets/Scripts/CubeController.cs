@@ -29,7 +29,7 @@ public class CubeController : MonoBehaviour
     private void Update()
     {
         CubeMovement();
-      
+
         return;
         if (Input.GetKeyDown(KeyCode.UpArrow)) TryExecuteMovementByDirection(Vector3.forward);
         if (Input.GetKeyDown(KeyCode.DownArrow)) TryExecuteMovementByDirection(Vector3.back);
@@ -41,13 +41,13 @@ public class CubeController : MonoBehaviour
     {
         RaycastHit hit;
         var pathDir = dir;
-        Debug.DrawRay(transform.position,pathDir * 0.55f,Color.magenta,1);
-        if (Physics.Raycast(transform.position, pathDir, out hit,0.55f))
+        Debug.DrawRay(transform.position, pathDir * 0.55f, Color.magenta, 1);
+        if (Physics.Raycast(transform.position, pathDir, out hit, 0.55f))
         {
             var obstacle = hit.collider.GetComponent<IObstacle>();
-            if(obstacle!=null)
+            if (obstacle != null)
                 obstacle.Collide(hit.point);
-            
+
             if (hit.collider.gameObject.tag == "Obstacle")
             {
                 DoBlockAnimation(dir);
@@ -62,7 +62,7 @@ public class CubeController : MonoBehaviour
     private void DoBlockAnimation(Vector3 direction)
     {
         isMoving = true;
-        transform.DOShakeScale(0.3f,0.1f,3,0.4f,true).SetEase(Ease.OutQuint).OnComplete((() => 
+        transform.DOShakeScale(0.3f, 0.1f, 3, 0.4f, true).SetEase(Ease.OutQuint).OnComplete((() =>
                 isMoving = false));
     }
     private void CubeMovement()
@@ -100,7 +100,7 @@ public class CubeController : MonoBehaviour
             TryExecuteMovementByDirection(relativeDir);
         }
     }
-    
+
     private void GetRelativeNumberPosition()
     {
         var leftDiceSide = GetDiceSideByDirection(Vector3.left);
@@ -129,7 +129,7 @@ public class CubeController : MonoBehaviour
             return six;
         return null;
     }
-    
+
     private Vector3 GetRelativeDirection(Vector3 diceSideDir)
     {
         Debug.Log(diceSideDir);
@@ -192,6 +192,8 @@ public class CubeController : MonoBehaviour
             {
                 currentTile = tile;
                 currentTile.EnterTile();
+
+                if (currentTile is RotateTile) transform.DORotate(Vector3.up*90, 0.4f, RotateMode.WorldAxisAdd);
             }
             else currentTile = null;
         }
@@ -214,7 +216,7 @@ public class CubeController : MonoBehaviour
     {
         if (currentTile is Jam)
         {
-            transform.DOShakePosition(0.2f, dir, 10, 15, false, true).SetEase(Ease.OutQuint); 
+            transform.DOShakePosition(0.2f, dir, 10, 15, false, true).SetEase(Ease.OutQuint);
             return true;
         }
         else return false;
