@@ -197,6 +197,19 @@ public class CubeController : MonoBehaviour
         }
 
     }
+
+    private void TryExecuteOnEnterTileAction(ITile iTile)
+    {
+        switch (iTile)
+        {
+            case Jam jam:
+                break;
+            case NumberTile numberTile:
+                var diceSide = GetDiceSideByDirection(Vector3.down);
+                numberTile.TryMatchDiceSide(diceSide);
+                break;
+        }
+    }
     private bool IsTileRestricted(Vector3 dir)
     {
         if (currentTile is Jam)

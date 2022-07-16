@@ -13,8 +13,8 @@ public class DiceSide : MonoBehaviour
             return dir;
         }   
     }
-    [SerializeField] private string number;
-    public string Number => number;
+    [SerializeField] private int number;
+    public int Number => number;
 
     private Transform dice;
    

@@ -23,13 +23,8 @@ public class InputUIView : MonoBehaviour
 
     private void UpdatedDiceView(DiceSide left, DiceSide right)
     {
-        leftText.text = left.Number;
-        rightText.text = right.Number;
+        leftText.text = left.Number.ToString();
+        rightText.text = right.Number.ToString();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
