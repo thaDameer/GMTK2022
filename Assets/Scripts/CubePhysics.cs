@@ -2,7 +2,7 @@
 
 public class CubePhysics : MonoBehaviour
 {
-    [SerializeField][Range(0f, -50f)] private float gravity = -5f;
+    [SerializeField][Range(0f, -100f)] private float gravity = -40f;
     [SerializeField] private float jumpHeight = 10f;
 
     private bool isGrounded, isJumping, jumpPressed;
@@ -11,13 +11,19 @@ public class CubePhysics : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && !isJumping)
-            jumpPressed = true;
+        if (Input.GetKey(KeyCode.Space))
+            TryJump();
         
         CheckGrounded();
         CalculateGravity();
         CheckJump();
         CalculateMovement();
+    }
+
+    public void TryJump()
+    {
+        if (!isJumping)
+            jumpPressed = true;
     }
 
     private void CheckJump()

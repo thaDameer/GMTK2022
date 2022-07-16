@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 606887513448873616}
   - component: {fileID: 606887513448873617}
   - component: {fileID: 606887513448873618}
+  - component: {fileID: 2058655571757295153}
   m_Layer: 0
   m_Name: CubeController
   m_TagString: Untagged
@@ -281,6 +282,20 @@ MonoBehaviour:
   four: {fileID: 196890847929499729}
   five: {fileID: 1206897427991246628}
   six: {fileID: 8003971195532028455}
+--- !u!114 &2058655571757295153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606887513448873619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c56dc38c52b47dfa3ca9434a7682137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: -40
+  jumpHeight: 5
 --- !u!1 &620683643517615681
 GameObject:
   m_ObjectHideFlags: 0
