@@ -33,8 +33,9 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded; 
         instance = this;
+        DontDestroyOnLoad(this); 
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Update()
