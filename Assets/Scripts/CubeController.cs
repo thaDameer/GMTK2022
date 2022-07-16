@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
+[RequireComponent(typeof(CubePhysics))]
 public class CubeController : MonoBehaviour
 {
-
     [SerializeField] private float movementSpeed = 10f;
 
     private DiceSide currentLeft, currentRight;
@@ -16,10 +15,8 @@ public class CubeController : MonoBehaviour
     public static event DiceSideChanged OnDiceSideChanged;
 
     private bool isMoving;
-    [SerializeField] private float gravity;
 
     ITile currentTile;
-
 
     private void Start()
     {
@@ -28,24 +25,13 @@ public class CubeController : MonoBehaviour
 
     private void Update()
     {
-        //DebugRays();
-        if (!IsGrounded())
-        {
-            //ADD GRAVITY FORCE
-        }
         CubeMovement();
-        Debug.Log(IsGrounded());
-
+      
         return;
         if (Input.GetKeyDown(KeyCode.UpArrow)) TrySetMovementByDirection(Vector3.forward);
         if (Input.GetKeyDown(KeyCode.DownArrow)) TrySetMovementByDirection(Vector3.back);
         if (Input.GetKeyDown(KeyCode.LeftArrow)) TrySetMovementByDirection(Vector3.left);
         if (Input.GetKeyDown(KeyCode.RightArrow)) TrySetMovementByDirection(Vector3.right);
-    }
-
-    private void AddFallGravity()
-    {
-        //transform.position = Vector3.
     }
 
     private bool IsPathBlocked(Vector3 dir)
@@ -55,14 +41,12 @@ public class CubeController : MonoBehaviour
         Debug.DrawRay(transform.position, pathDir * 0.55f, Color.magenta, 1);
         if (Physics.Raycast(transform.position, pathDir, out hit, 0.55f))
         {
-
             if (hit.collider.gameObject.tag == "Obstacle")
             {
                 DoBlockAnimation();
                 //Maybe check for different obstacles
                 return true;
             }
-
         }
 
         return false;
@@ -107,15 +91,7 @@ public class CubeController : MonoBehaviour
             TrySetMovementByDirection(relativeDir);
         }
     }
-    private bool IsGrounded()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, 0.55f))
-        {
-            return true;
-        }
-        return false;
-    }
+    
     private void GetRelativeNumberPosition()
     {
         var leftDiceSide = GetDiceSideByDirection(Vector3.left);
@@ -126,7 +102,6 @@ public class CubeController : MonoBehaviour
             currentRight = rightDiceSide;
             OnDiceSideChanged?.Invoke(currentLeft, currentRight);
         }
-        //Debug.Log("left: "+leftDiceSide.Number + ". right: "+ rightDiceSide.Number);
     }
 
     private DiceSide GetDiceSideByDirection(Vector3 direction)
@@ -145,6 +120,7 @@ public class CubeController : MonoBehaviour
             return six;
         return null;
     }
+    
     private Vector3 GetRelativeDirection(Vector3 diceSideDir)
     {
         Debug.Log(diceSideDir);
@@ -160,18 +136,7 @@ public class CubeController : MonoBehaviour
             return Vector3.left;
         return diceSideDir == Vector3.left ? Vector3.right : Vector3.zero;
     }
-    private void DebugRays()
-    {
-        Debug.DrawRay(transform.position, one.Direction * 2, Color.cyan);
-        Debug.DrawRay(transform.position, two.Direction * 2, Color.blue);
-
-        Debug.DrawRay(transform.position, three.Direction * 2, Color.green);
-        Debug.DrawRay(transform.position, four.Direction * 2, Color.magenta);
-
-        Debug.DrawRay(transform.position, five.Direction * 2, Color.red);
-        Debug.DrawRay(transform.position, six.Direction * 2, Color.yellow);
-
-    }
+    
     private void TrySetMovementByDirection(Vector3 dir)
     {
         if (IsTileRestricted()) { currentTile.TileAction(); return; }
@@ -201,7 +166,6 @@ public class CubeController : MonoBehaviour
     {
         RaycastHit hit;
 
-
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.55f))
         {
             var tile = hit.collider.gameObject.GetComponent<ITile>();
@@ -214,6 +178,7 @@ public class CubeController : MonoBehaviour
         }
 
     }
+    
     private bool IsTileRestricted()
     {
         if (currentTile is Jam)
@@ -238,5 +203,4 @@ public class CubeController : MonoBehaviour
     {
         BaseTile.OnTileComplete -= ClearTile;
     }
-
 }
