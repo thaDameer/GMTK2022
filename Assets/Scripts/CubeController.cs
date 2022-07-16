@@ -15,6 +15,7 @@ public class CubeController : MonoBehaviour
     public delegate void DiceSideChanged(DiceSide left, DiceSide right);
     public static event DiceSideChanged OnDiceSideChanged;
 
+    private CubePhysics cubePhysics;
     private bool isMoving;
 
     ITile currentTile;
@@ -22,6 +23,7 @@ public class CubeController : MonoBehaviour
     private void Start()
     {
         BaseTile.OnTileComplete += ClearTile;
+        cubePhysics = GetComponent<CubePhysics>();
     }
 
     private void Update()
@@ -29,10 +31,10 @@ public class CubeController : MonoBehaviour
         CubeMovement();
       
         return;
-        if (Input.GetKeyDown(KeyCode.UpArrow)) TrySetMovementByDirection(Vector3.forward);
-        if (Input.GetKeyDown(KeyCode.DownArrow)) TrySetMovementByDirection(Vector3.back);
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) TrySetMovementByDirection(Vector3.left);
-        if (Input.GetKeyDown(KeyCode.RightArrow)) TrySetMovementByDirection(Vector3.right);
+        if (Input.GetKeyDown(KeyCode.UpArrow)) TryExecuteMovementByDirection(Vector3.forward);
+        if (Input.GetKeyDown(KeyCode.DownArrow)) TryExecuteMovementByDirection(Vector3.back);
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) TryExecuteMovementByDirection(Vector3.left);
+        if (Input.GetKeyDown(KeyCode.RightArrow)) TryExecuteMovementByDirection(Vector3.right);
     }
 
     private bool IsPathBlocked(Vector3 dir)
@@ -68,34 +70,34 @@ public class CubeController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             var relativeDir = GetRelativeDirection(one.Direction);
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
         {
             var relativeDir = GetRelativeDirection(two.Direction);
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
             var relativeDir = GetRelativeDirection(three.Direction);
 
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
         {
             var relativeDir = GetRelativeDirection(four.Direction);
 
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
         {
             var relativeDir = GetRelativeDirection(five.Direction);
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
         {
             var relativeDir = GetRelativeDirection(six.Direction);
-            TrySetMovementByDirection(relativeDir);
+            TryExecuteMovementByDirection(relativeDir);
         }
     }
     
@@ -144,15 +146,25 @@ public class CubeController : MonoBehaviour
         return diceSideDir == Vector3.left ? Vector3.right : Vector3.zero;
     }
     
-    private void TrySetMovementByDirection(Vector3 dir)
+    private void TryExecuteMovementByDirection(Vector3 dir)
     {
         if (isMoving) return;
         if (IsPathBlocked(dir))
             return;
         if (IsTileRestricted(dir)) { currentTile.TileAction(); return; }
+
+        if (IsJumpInput(dir))
+        {
+            cubePhysics.TryJump();
+        }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
         StartCoroutine(RollMovement(anchor, axis));
+    }
+
+    private bool IsJumpInput(Vector3 dir)
+    {
+        return dir == Vector3.up;
     }
 
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
