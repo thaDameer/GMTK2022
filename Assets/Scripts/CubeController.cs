@@ -10,8 +10,8 @@ public class CubeController : MonoBehaviour
     private DiceSide currentLeft, currentRight;
 
     [SerializeField] private DiceSide one, two, three, four, five, six;
-    
-    
+    public delegate void DiceSideChanged(DiceSide left, DiceSide right);
+    public static event DiceSideChanged OnDiceSideChanged;
     
     private bool isMoving;
     
@@ -69,6 +69,7 @@ public class CubeController : MonoBehaviour
         {
             currentLeft = leftDiceSide;
             currentRight = rightDiceSide;
+            OnDiceSideChanged?.Invoke(currentLeft,currentRight);
         }
         Debug.Log("left: "+leftDiceSide.Number + ". right: "+ rightDiceSide.Number);
     }
