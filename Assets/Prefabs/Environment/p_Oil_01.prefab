@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displacementAmount: 0
-  force: 1
+  force: 0.5
   SplashParticleSystem: {fileID: 0}
   playerPosition: {fileID: 0}
 --- !u!114 &5915874253961562833
