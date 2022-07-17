@@ -71,7 +71,6 @@ public class CubeController : MonoBehaviour
 
             if (hit.collider.gameObject.tag == "Obstacle")
             {
-                Debug.Log(hit.collider.gameObject.name);
                 DoBlockAnimation(dir);
                 //Maybe check for different obstacles
                 return true;
@@ -178,8 +177,8 @@ public class CubeController : MonoBehaviour
 
         if (IsJumpInput(dir))
         {
+            PlaySound(jumpSound); 
             cubePhysics.TryJump();
-            AudioSource.PlayClipAtPoint(jumpSound, transform.position); 
             return;
         }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
@@ -197,7 +196,7 @@ public class CubeController : MonoBehaviour
         SetIsMoving(true);
         bool diceIsRolling = axis != Vector3.zero;
         if (diceIsRolling)
-            AudioSource.PlayClipAtPoint(preSound, transform.position);
+            PlaySound(preSound);
         
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
@@ -205,7 +204,7 @@ public class CubeController : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         if(diceIsRolling)
-            AudioSource.PlayClipAtPoint(landSound, transform.position); 
+            PlaySound(landSound); 
         GetRelativeNumberPosition();
         UpdateTile();
         SetIsMoving(false);
@@ -265,7 +264,10 @@ public class CubeController : MonoBehaviour
         currentTile = null;
     }
     
-
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position); 
+    }
     private void OnDestroy()
     {
         BaseTile.OnTileComplete -= ClearTile;
