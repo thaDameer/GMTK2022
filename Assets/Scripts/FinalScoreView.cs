@@ -8,6 +8,6 @@ public class FinalScoreView : MonoBehaviour
 
     private void Start()
     {
-        scoreLabel.text = ScoreManager.Instance.TotalTime.ToString("00.0");
+        scoreLabel.text = TimeFormatHelperClass.FormatTime(ScoreManager.Instance.TotalTime);
     }
 }

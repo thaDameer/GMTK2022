@@ -22,7 +22,7 @@ public class TimerView : MonoBehaviour
     }
     private void Update()
     {
-        if (ScoreManager.Instance)
+        if (ScoreManager.Instance && !ScoreManager.Instance.TimerPaused)
             timerText.text = TimeFormatHelperClass.FormatTime(ScoreManager.Instance.LevelTime);
     }
 }

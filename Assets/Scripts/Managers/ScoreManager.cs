@@ -3,19 +3,15 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private SceneController sceneController;
-    public float LevelTime => levelTime;
-    private float totalTime, levelTime;
-    private bool timerPaused;
-
-  
+    public bool TimerPaused { get; private set; }
+    public float LevelTime { get; private set; }
     public float TotalTime { get; private set; }
 
     private static ScoreManager instance;
     public static ScoreManager Instance
     {
         get => instance;
-        set
+        private set
         {
             if (instance == null)
                 instance = value;
@@ -25,7 +21,7 @@ public class ScoreManager : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        instance = this;
+        Instance = this;
 
         EventBroker.Instance.OnStartLevel += StartTimer;
         EventBroker.Instance.OnFailLevel += ResetLevelTimer;
@@ -35,24 +31,24 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        if (timerPaused) return;
+        if (TimerPaused) return;
 
-        levelTime += Time.deltaTime;
+        LevelTime += Time.deltaTime;
     }
 
     private void StartTimer()
     {
         ResetLevelTimer();
-        timerPaused = false;
+        TimerPaused = false;
     }
 
     private void StopTimer()
     {
-        timerPaused = true;
+        TimerPaused = true;
         TotalTime += LevelTime;
     }
 
-    private void ResetLevelTimer() => levelTime = 0f;
+    private void ResetLevelTimer() => LevelTime = 0f;
 
     private void ResetTotalTimer() => TotalTime = 0f;
 
