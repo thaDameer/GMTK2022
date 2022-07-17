@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Level5.unity
     guid: 6973e7875384745a895fd0ca7fe22f4d
   - enabled: 1
-    path: Assets/Scenes/Level10.unity
+    path: Assets/Scenes/Level6.unity
     guid: 2b1e7ed41ab9948a3bdc19d0f4b2b684
   - enabled: 1
     path: Assets/Scenes/ScoreMenu.unity
