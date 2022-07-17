@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1349012789839142704}
   - component: {fileID: 3845036923638967290}
   m_Layer: 0
-  m_Name: p_Milk
+  m_Name: p_Milk_green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1349012789839142704
 MeshFilter:
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 79de36fc8cb7ad244b8d39ebaa0f8b8a, type: 2}
+  - {fileID: 2100000, guid: bccbd989d34495949b2eeb5cfeec6adf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
