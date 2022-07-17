@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8257267546249182027}
   - component: {fileID: 4987858087030568174}
   - component: {fileID: 7123737799992590372}
-  m_Layer: 0
+  - component: {fileID: 6961497498159876515}
+  m_Layer: 7
   m_Name: SM_Milk
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 180}
 --- !u!33 &4987858087030568174
 MeshFilter:
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6961497498159876515
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8781005218830311921}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.039437965, y: 0.039437946, z: 0.10522052}
+  m_Center: {x: 5.1428395e-10, y: 9.313238e-10, z: 0.0017256537}
