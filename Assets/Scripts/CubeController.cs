@@ -10,6 +10,7 @@ public class CubeController : MonoBehaviour
 {
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private float movementSpeed = 10f;
+    [SerializeField] private float deathBedHeight = -10f;
 
     private DiceSide currentLeft, currentRight, currentJump;
 
@@ -35,8 +36,25 @@ public class CubeController : MonoBehaviour
 
     private void Update()
     {
-        if (!isActive) return; 
+        if (!isActive) return;
+        if (OnDeathBed()) return;
+        
         CubeMovement();
+    }
+
+    private bool OnDeathBed()
+    {
+        if (transform.position.y > deathBedHeight) return false;
+        
+        GameManager.Instance.OnPlayerDead();
+        StartCoroutine(DestroyAfterSeconds(3f));
+        return true;
+    }
+
+    private IEnumerator DestroyAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Destroy(gameObject);
     }
 
     [Range(0,1)]public float range = 0.5f;
