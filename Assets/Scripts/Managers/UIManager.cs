@@ -1,6 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+ 
 
 public class UIManager : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject GameOverScreen;
     [SerializeField] private GameObject ClearScreen;
+    [SerializeField] private TextMeshProUGUI timerLabel;
+    [SerializeField] private Button restart, next; 
+
     public static UIManager Instance
     {
         get
@@ -16,20 +20,27 @@ public class UIManager : MonoBehaviour
             {
                 Debug.LogError("UIManager is NULL");
             }
+
             return instance;
         }
     }
+
+    private void Update()
+    {
+        UseKeysAsButtons(); 
+    }
+
     private void Awake()
     {
         if (instance != null && instance != this) Destroy(this.gameObject);
         else instance = this;
-
+        
         DontDestroyOnLoad(this);
     }
-
+    
     public void ShowGameOverScreen()
     {
-        GameOverScreen.SetActive(true); 
+        GameOverScreen.SetActive(true);
     }
 
     public void HideGameOverScreen()
@@ -39,16 +50,35 @@ public class UIManager : MonoBehaviour
 
     public void ShowLevelClearScreen()
     {
-        ClearScreen.SetActive(true); 
+        ClearScreen.SetActive(true);
     }
 
     public void HideLevelClearScreen()
     {
-        ClearScreen.SetActive(false); 
+        ClearScreen.SetActive(false);
     }
 
-    public void UpdateTimer()
+    public void UpdateTimer(float time)
     {
-        throw new System.NotImplementedException();
+        timerLabel.text = time.ToString("00.0");
+    }
+
+    public void UseKeysAsButtons()
+    {
+        if (ClearScreen.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                next.onClick.Invoke();
+            }
+        }
+
+        if (GameOverScreen.activeInHierarchy)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                restart.onClick.Invoke();
+            }
+        }
     }
 }

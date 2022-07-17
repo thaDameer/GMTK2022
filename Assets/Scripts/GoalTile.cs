@@ -6,13 +6,11 @@ public class GoalTile : BaseTile
 {
     public override void EnterTile()
     {
-        GameManager.Instance.levelCleared = true;
-        GameManager.Instance.OnLevelClear(); 
+        EventBroker.Instance.OnCompleteLevel?.Invoke();
     }
 
     public override void TileAction()
     {
         
     }
-
 }

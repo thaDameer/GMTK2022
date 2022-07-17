@@ -19,7 +19,7 @@ public class CubeController : MonoBehaviour
     public static event DiceSideChanged OnDiceSideChanged;
 
     private CubePhysics cubePhysics;
-    private bool isMoving;
+    private bool isMoving, levelStarted;
 
     public bool isActive = true; 
 
@@ -30,23 +30,26 @@ public class CubeController : MonoBehaviour
     private void Start()
     {
         BaseTile.OnTileComplete += ClearTile;
+        EventBroker.Instance.OnStartLevel += StartLevel;
         cubePhysics = GetComponent<CubePhysics>();
         GetRelativeNumberPosition();
     }
 
     private void Update()
     {
-        if (!isActive) return;
+        if (!isActive || !levelStarted) return;
         if (OnDeathBed()) return;
         
         CubeMovement();
     }
 
+    private void StartLevel() => levelStarted = true;
+
     private bool OnDeathBed()
     {
         if (transform.position.y > deathBedHeight) return false;
         
-        GameManager.Instance.OnPlayerDead();
+        EventBroker.Instance.OnFailLevel?.Invoke();
         StartCoroutine(DestroyAfterSeconds(3f));
         return true;
     }
@@ -57,21 +60,20 @@ public class CubeController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    [Range(0,1)]public float range = 0.5f;
+ 
     private bool IsPathBlocked(Vector3 dir)
     {
         RaycastHit hit;
         var pathDir = dir;
 
-        if (Physics.Raycast(transform.position, pathDir, out hit, range))
+        if (Physics.Raycast(transform.position, pathDir, out hit, 0.55f))
         {
             var obstacle = hit.collider.GetComponent<IObstacle>();
             if (obstacle != null)
                 obstacle.Collide(hit.point);
 
-            if (hit.collider.gameObject.tag == "Obstacle")
+            if (hit.collider.gameObject)
             {
-                Debug.Log(hit.collider.gameObject.name);
                 DoBlockAnimation(dir);
                 //Maybe check for different obstacles
                 return true;
@@ -178,8 +180,8 @@ public class CubeController : MonoBehaviour
 
         if (IsJumpInput(dir))
         {
+            PlaySound(jumpSound); 
             cubePhysics.TryJump();
-            AudioSource.PlayClipAtPoint(jumpSound, transform.position); 
             return;
         }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
@@ -197,7 +199,7 @@ public class CubeController : MonoBehaviour
         SetIsMoving(true);
         bool diceIsRolling = axis != Vector3.zero;
         if (diceIsRolling)
-            AudioSource.PlayClipAtPoint(preSound, transform.position);
+            PlaySound(preSound);
         
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
@@ -205,7 +207,7 @@ public class CubeController : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         if(diceIsRolling)
-            AudioSource.PlayClipAtPoint(landSound, transform.position); 
+            PlaySound(landSound); 
         GetRelativeNumberPosition();
         UpdateTile();
         SetIsMoving(false);
@@ -253,8 +255,12 @@ public class CubeController : MonoBehaviour
         if (currentTile is Jam)
         {
             var pos = transform.position; 
-            transform.DOShakePosition(0.2f, dir, 10, 15, false, true).SetEase(Ease.OutQuint);
-            transform.position = pos; 
+            transform.DOShakePosition(0.2f, dir, 10, 0, false, true).SetEase(Ease.OutQuint).OnComplete(() =>
+            {
+                transform.position = pos;   
+            }
+            );
+           
             return true;
         }
         else return false;
@@ -265,9 +271,13 @@ public class CubeController : MonoBehaviour
         currentTile = null;
     }
     
-
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position); 
+    }
     private void OnDestroy()
     {
         BaseTile.OnTileComplete -= ClearTile;
+        EventBroker.Instance.OnStartLevel -= StartLevel;
     }
 }
