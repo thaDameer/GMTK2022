@@ -26,7 +26,7 @@ public class InputUIView : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (camera)
         {
