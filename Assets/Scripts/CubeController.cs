@@ -8,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(CubePhysics))]
 public class CubeController : MonoBehaviour
 {
+    [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private float movementSpeed = 10f;
 
     private DiceSide currentLeft, currentRight, currentJump;
@@ -42,10 +43,28 @@ public class CubeController : MonoBehaviour
         RaycastHit hit;
         var pathDir = dir;
         Debug.DrawRay(transform.position, pathDir * 0.55f, Color.magenta, 1);
-        if(Physics.OverlapBox(transform.position + pathDir, Vector3.one * 0.9f,transform.rotation)
+        var boxPosition = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y,
+            transform.position.z + dir.z);
+        Collider[] hitColliders = Physics.OverlapBox(boxPosition, transform.localScale, Quaternion.identity, 6);
+
+        if (hitColliders.Length > 0)
         {
-            
-        })
+            foreach (var collider in hitColliders)
+            {
+                var obstacle = collider.GetComponent<IObstacle>();
+                if (obstacle != null)
+                    obstacle.Collide(boxPosition);
+
+                if (collider.gameObject.tag == "Obstacle")
+                {
+                    Debug.Log(collider.gameObject.name);
+                    DoBlockAnimation(dir);
+                    //Maybe check for different obstacles
+                    return true;
+                }
+            }
+        }
+   
         if (Physics.BoxCast(transform.position,Vector3.one, pathDir, out hit,transform.rotation, range))
         {
             var obstacle = hit.collider.GetComponent<IObstacle>();
