@@ -15,17 +15,17 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: DiceEyes
-    Event: 500
+    Event: 300
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 64
       PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: a982f769e7b0fe749be8e14c0845859d, type: 2}
+    overrideMaterial: {fileID: 2100000, guid: a6feaaad8280a744f95d61e4c8cebdd3, type: 2}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
-    depthCompareFunction: 4
+    depthCompareFunction: 6
     enableWrite: 1
     stencilSettings:
       overrideStencilState: 0
@@ -75,10 +75,10 @@ MonoBehaviour:
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
