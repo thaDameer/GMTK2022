@@ -37,7 +37,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (timerPaused) return;
 
-        LevelTime += Time.deltaTime;
+        levelTime += Time.deltaTime;
     }
 
     private void StartTimer()
@@ -52,7 +52,7 @@ public class ScoreManager : MonoBehaviour
         TotalTime += LevelTime;
     }
 
-    private void ResetLevelTimer() => LevelTime = 0f;
+    private void ResetLevelTimer() => levelTime = 0f;
 
     private void ResetTotalTimer() => TotalTime = 0f;
 
