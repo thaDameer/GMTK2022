@@ -22,9 +22,11 @@ public class ScoreManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         Instance = this;
+        TimerPaused = true;
 
+        EventBroker.Instance.OnLevelCountdownStart += ResetLevelTimer;
         EventBroker.Instance.OnStartLevel += StartTimer;
-        EventBroker.Instance.OnFailLevel += ResetLevelTimer;
+        EventBroker.Instance.OnFailLevel += PauseTimer;
         EventBroker.Instance.OnCompleteLevel += StopTimer;
         EventBroker.Instance.OnGameReset += ResetTotalTimer;
     }
@@ -38,7 +40,6 @@ public class ScoreManager : MonoBehaviour
 
     private void StartTimer()
     {
-        ResetLevelTimer();
         TimerPaused = false;
     }
 
@@ -48,14 +49,17 @@ public class ScoreManager : MonoBehaviour
         TotalTime += LevelTime;
     }
 
-    private void ResetLevelTimer() => LevelTime = 0f;
+    private void PauseTimer() => TimerPaused = true;
+
+    private void ResetLevelTimer(float f) => LevelTime = 0f;
 
     private void ResetTotalTimer() => TotalTime = 0f;
 
     private void OnDestroy()
     {
+        EventBroker.Instance.OnLevelCountdownStart -= ResetLevelTimer;
         EventBroker.Instance.OnStartLevel -= StartTimer;
-        EventBroker.Instance.OnFailLevel -= ResetLevelTimer;
+        EventBroker.Instance.OnFailLevel -= PauseTimer;
         EventBroker.Instance.OnCompleteLevel -= StopTimer;
         EventBroker.Instance.OnGameReset -= ResetTotalTimer;
     } 
