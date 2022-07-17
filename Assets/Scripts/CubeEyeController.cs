@@ -27,18 +27,9 @@ public class CubeEyeController : MonoBehaviour
             usedMaterials.Add(meshRenderer.material);
         }
 
-        Blink();
+        StartCoroutine(StartupRoutine());
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            Blink();
-        }
-    }
-
-
+    
     private IEnumerator StartupRoutine()
     {
         Random rnd = new Random();
@@ -103,6 +94,7 @@ public class CubeEyeController : MonoBehaviour
 
     private void OnDestroy()
     {
-        StopCoroutine(animation);
+        if(animation!=null)
+            StopCoroutine(animation);
     }
 }

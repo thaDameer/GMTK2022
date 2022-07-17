@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameplayUIView : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         EventBroker.Instance.OnGameplaySceneLoaded += HideUI;
         EventBroker.Instance.OnStartLevel += ShowUI;
