@@ -4,8 +4,9 @@ public class CubePhysics : MonoBehaviour
 {
     [SerializeField][Range(0f, -100f)] private float gravity = -40f;
     [SerializeField] private float jumpHeight = 10f;
+    [SerializeField] private float pushDownForce = 5f;
 
-    private bool isGrounded, isJumping, jumpPressed;
+    private bool isGrounded, isJumping, jumpPressed, pushDownPressed;
     private float currentVerticalSpeed, currentForwardSpeed;
     private const float GroundCheckDistance = 0.75f;
     private float JumpSpeed => Mathf.Sqrt(-2f * gravity * jumpHeight);
@@ -15,7 +16,7 @@ public class CubePhysics : MonoBehaviour
     private void Update()
     {
         if (Input.GetKey(KeyCode.Space))
-            TryJump();
+            TryPushDown();
         
         CheckGrounded();
         CalculateGravity();
@@ -29,30 +30,12 @@ public class CubePhysics : MonoBehaviour
             jumpPressed = true;
     }
 
-    private void CheckJump()
-    {
-        if (!jumpPressed || isJumping) return;
-
-        jumpPressed = false;
-        isJumping = true;
-        currentVerticalSpeed += JumpSpeed;
-    }
-
-    private void CalculateGravity()
+    public void TryPushDown()
     {
         if (!isGrounded)
-            currentVerticalSpeed += gravity * Time.deltaTime;
+            pushDownPressed = true;
     }
 
-    private void CalculateMovement()
-    {
-        if (PausePhysics) 
-            return;
-        
-        var movement = new Vector3(0, currentVerticalSpeed, currentForwardSpeed) * Time.deltaTime;
-        transform.position += movement;
-    }
-    
     private void CheckGrounded()
     {
         var position = transform.position;
@@ -72,9 +55,37 @@ public class CubePhysics : MonoBehaviour
 
         isGrounded = true;
         isJumping = false;
+        pushDownPressed = false;
         
         if (currentVerticalSpeed < 0) 
             currentVerticalSpeed = 0f;
+    }
+
+    private void CalculateGravity()
+    {
+        if (isGrounded) return;
+            
+        currentVerticalSpeed += gravity * Time.deltaTime;
+
+        if (pushDownPressed) 
+            currentVerticalSpeed -= pushDownForce;
+    }
+
+    private void CheckJump()
+    {
+        if (!jumpPressed || isJumping) return;
+
+        jumpPressed = false;
+        isJumping = true;
+        currentVerticalSpeed += JumpSpeed;
+    }
+
+    private void CalculateMovement()
+    {
+        if (PausePhysics) return;
+        
+        var movement = new Vector3(0, currentVerticalSpeed, currentForwardSpeed) * Time.deltaTime;
+        transform.position += movement;
     }
 
     private void AdjustHeightPosition(float hitDistance)
