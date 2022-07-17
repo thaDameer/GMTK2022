@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -9,9 +7,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject GameOverScreen;
     [SerializeField] private GameObject ClearScreen;
-
-
-
+    [SerializeField] private TextMeshProUGUI timerLabel;
+    
     public static UIManager Instance
     {
         get
@@ -29,13 +26,10 @@ public class UIManager : MonoBehaviour
     {
         if (instance != null && instance != this) Destroy(this.gameObject);
         else instance = this;
-
-      
+        
         DontDestroyOnLoad(this);
     }
-
-
-
+    
     public void ShowGameOverScreen()
     {
         GameOverScreen.SetActive(true);
@@ -56,8 +50,8 @@ public class UIManager : MonoBehaviour
         ClearScreen.SetActive(false);
     }
 
-    public void UpdateTimer()
+    public void UpdateTimer(float time)
     {
-        throw new System.NotImplementedException();
+        timerLabel.text = time.ToString("00.0");
     }
 }

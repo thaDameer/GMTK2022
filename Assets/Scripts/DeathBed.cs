@@ -6,9 +6,9 @@ public class DeathBed : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.CompareTag("Player"))
         {
-            GameManager.Instance.OnPlayerDead();
+            EventBroker.Instance.OnFailLevel?.Invoke();
             Destroy(other.gameObject); 
         }
     }
