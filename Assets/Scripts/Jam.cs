@@ -7,7 +7,9 @@ public class Jam : BaseTile
 {
     //Stickiness determines how many times one needs to press the button to escape
     public float Stickiness;
-
+    [SerializeField] private AudioClip stickClip;
+    [SerializeField] private ParticleSystem particles;
+    public int ParticleCount = 10; 
     public override void EnterTile()
     {
         Stickiness = (int)UnityEngine.Random.Range(1, 6);
@@ -16,6 +18,8 @@ public class Jam : BaseTile
     public override void TileAction()
     {
         Stickiness -= 1;
+        if(stickClip != null) AudioSource.PlayClipAtPoint(stickClip, transform.position);
+        if(particles != null) particles.Emit(ParticleCount); 
         if (Stickiness <= 0) OnTileComplete.Invoke();
     }
 

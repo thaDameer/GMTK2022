@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: SceneController
   m_EditorClassIdentifier: 
   scenes:
-  - {fileID: 102900000, guid: a5ca1c544260f8b469fa30b0d992320d, type: 3}
-  - {fileID: 102900000, guid: ed93ae5961a7e4ceb8c543e410671b1f, type: 3}
-  - {fileID: 102900000, guid: f1300fb5faa8e41578ca7339a46ec621, type: 3}
-  - {fileID: 102900000, guid: a2d8c3799e7f843e4a0978c16cb472c3, type: 3}
-  - {fileID: 102900000, guid: 770314b957ef74a7481d6cd25b523f88, type: 3}
-  - {fileID: 102900000, guid: 3de1d30bcdc0e48b6976fba2b5c8081e, type: 3}
+  - sceneAsset: {fileID: 102900000, guid: a5ca1c544260f8b469fa30b0d992320d, type: 3}
+    scenePath: Assets/Scenes/MainMenu.unity
+  - sceneAsset: {fileID: 102900000, guid: ed93ae5961a7e4ceb8c543e410671b1f, type: 3}
+    scenePath: Assets/Scenes/Level0.unity
+  - sceneAsset: {fileID: 102900000, guid: f1300fb5faa8e41578ca7339a46ec621, type: 3}
+    scenePath: Assets/Scenes/Level1.unity
+  - sceneAsset: {fileID: 102900000, guid: a2d8c3799e7f843e4a0978c16cb472c3, type: 3}
+    scenePath: Assets/Scenes/Level2.unity
+  - sceneAsset: {fileID: 102900000, guid: 770314b957ef74a7481d6cd25b523f88, type: 3}
+    scenePath: Assets/Scenes/Level3.unity
+  - sceneAsset: {fileID: 102900000, guid: 3de1d30bcdc0e48b6976fba2b5c8081e, type: 3}
+    scenePath: Assets/Scenes/Level4.unity

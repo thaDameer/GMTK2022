@@ -60,6 +60,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stickiness: 0
+  stickClip: {fileID: 8300000, guid: a2411748274dfa64ca87de32cbb2ebe2, type: 3}
+  particles: {fileID: 0}
+  ParticleCount: 10
 --- !u!1001 &4090555712735166696
 PrefabInstance:
   m_ObjectHideFlags: 0

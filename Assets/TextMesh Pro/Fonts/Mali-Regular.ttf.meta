@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: d703b52720872124d91181316a51debf
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Mali
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c0023030fe0823842a592af1a407ffdd, type: 3}
+  - {fileID: 12800000, guid: e25ed501352f5114289bb6dcaeceeebc, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
