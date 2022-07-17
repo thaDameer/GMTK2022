@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 140688723436398881}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2695478427302510042
 BoxCollider:
@@ -59,6 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6664485d0f9c9ba49813620db8dcb828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: a2411748274dfa64ca87de32cbb2ebe2, type: 3}
+  particles: {fileID: 0}
+  ParticleCount: 10
 --- !u!1001 &2695478427870794653
 PrefabInstance:
   m_ObjectHideFlags: 0
