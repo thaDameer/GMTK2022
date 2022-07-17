@@ -22,6 +22,8 @@ public class CubeController : MonoBehaviour
 
     ITile currentTile;
 
+    [SerializeField] private AudioClip landSound, preSound, jumpSound; 
+
     private void Start()
     {
         BaseTile.OnTileComplete += ClearTile;
@@ -153,6 +155,7 @@ public class CubeController : MonoBehaviour
         if (IsJumpInput(dir))
         {
             cubePhysics.TryJump();
+            AudioSource.PlayClipAtPoint(jumpSound, transform.position); 
             return;
         }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
@@ -168,12 +171,13 @@ public class CubeController : MonoBehaviour
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
     {
         SetIsMoving(true);
-
+        AudioSource.PlayClipAtPoint(preSound, transform.position); 
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
             transform.RotateAround(anchor, axis, movementSpeed);
             yield return new WaitForSeconds(0.01f);
         }
+        AudioSource.PlayClipAtPoint(landSound, transform.position); 
         GetRelativeNumberPosition();
         UpdateTile();
         SetIsMoving(false);
@@ -220,7 +224,9 @@ public class CubeController : MonoBehaviour
     {
         if (currentTile is Jam)
         {
+            var pos = transform.position; 
             transform.DOShakePosition(0.2f, dir, 10, 15, false, true).SetEase(Ease.OutQuint);
+            transform.position = pos; 
             return true;
         }
         else return false;
