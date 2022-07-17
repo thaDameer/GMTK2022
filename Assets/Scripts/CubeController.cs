@@ -57,19 +57,19 @@ public class CubeController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    [Range(0,1)]public float range = 0.5f;
+ 
     private bool IsPathBlocked(Vector3 dir)
     {
         RaycastHit hit;
         var pathDir = dir;
 
-        if (Physics.Raycast(transform.position, pathDir, out hit, range))
+        if (Physics.Raycast(transform.position, pathDir, out hit, 0.55f))
         {
             var obstacle = hit.collider.GetComponent<IObstacle>();
             if (obstacle != null)
                 obstacle.Collide(hit.point);
 
-            if (hit.collider.gameObject.tag == "Obstacle")
+            if (hit.collider.gameObject)
             {
                 DoBlockAnimation(dir);
                 //Maybe check for different obstacles
