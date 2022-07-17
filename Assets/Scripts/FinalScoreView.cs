@@ -8,6 +8,7 @@ public class FinalScoreView : MonoBehaviour
 
     private void Start()
     {
-        scoreLabel.text = TimeFormatHelperClass.FormatTime(ScoreManager.Instance.TotalTime);
+        var timeSpan = TimeSpan.FromSeconds(ScoreManager.Instance.TotalTime);
+        scoreLabel.text = $"{timeSpan.Minutes:00}:{timeSpan.Seconds:00} min";
     }
 }
