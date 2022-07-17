@@ -25,5 +25,9 @@ MonoBehaviour:
     scenePath: Assets/Scenes/Level3.unity
   - sceneAsset: {fileID: 102900000, guid: 3de1d30bcdc0e48b6976fba2b5c8081e, type: 3}
     scenePath: Assets/Scenes/Level4.unity
+  - sceneAsset: {fileID: 102900000, guid: 6973e7875384745a895fd0ca7fe22f4d, type: 3}
+    scenePath: Assets/Scenes/Level5.unity
+  - sceneAsset: {fileID: 102900000, guid: 2b1e7ed41ab9948a3bdc19d0f4b2b684, type: 3}
+    scenePath: Assets/Scenes/Level6.unity
   - sceneAsset: {fileID: 102900000, guid: 6b620bdddc1e22f4dbf266df7faccbec, type: 3}
     scenePath: Assets/Scenes/ScoreMenu.unity
