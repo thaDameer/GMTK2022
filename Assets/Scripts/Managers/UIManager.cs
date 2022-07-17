@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+ 
 
 public class UIManager : MonoBehaviour
 {
@@ -8,7 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject GameOverScreen;
     [SerializeField] private GameObject ClearScreen;
     [SerializeField] private TextMeshProUGUI timerLabel;
-    
+    [SerializeField] private Button restart, next; 
+
     public static UIManager Instance
     {
         get
@@ -20,6 +23,11 @@ public class UIManager : MonoBehaviour
 
             return instance;
         }
+    }
+
+    private void Update()
+    {
+        UseKeysAsButtons(); 
     }
 
     private void Awake()
@@ -53,5 +61,24 @@ public class UIManager : MonoBehaviour
     public void UpdateTimer(float time)
     {
         timerLabel.text = time.ToString("00.0");
+    }
+
+    public void UseKeysAsButtons()
+    {
+        if (ClearScreen.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                next.onClick.Invoke();
+            }
+        }
+
+        if (GameOverScreen.activeInHierarchy)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                restart.onClick.Invoke();
+            }
+        }
     }
 }

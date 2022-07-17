@@ -13,4 +13,6 @@ public class EventBroker {
     public Action OnStartLevel;
     public Action OnCompleteLevel;
     public Action OnFailLevel;
+    public Action OnFinalLevelComplete;
+    public Action OnGameReset;
 }
