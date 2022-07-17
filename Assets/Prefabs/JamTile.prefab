@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 7431797840589982127}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4090555712361842956
 BoxCollider:
@@ -60,9 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stickiness: 0
-  ParticleCount: 10
-  smudge: {fileID: 8300000, guid: 87484b00ab15cfc49a8fce36e904fba3, type: 3}
-  particles: {fileID: 0}
 --- !u!1001 &4090555712735166696
 PrefabInstance:
   m_ObjectHideFlags: 0
