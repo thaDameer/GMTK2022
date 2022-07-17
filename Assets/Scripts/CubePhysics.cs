@@ -96,4 +96,12 @@ public class CubePhysics : MonoBehaviour
         var extents = transform.lossyScale.y * 0.5f;
         transform.position += Vector3.down * (hitDistance - extents);
     }
+
+    public void TurnOffGravity()
+    {
+        gravity = 0;
+        pushDownForce = 0; 
+    }
+
+
 }
