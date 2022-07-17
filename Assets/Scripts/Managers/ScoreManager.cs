@@ -4,9 +4,11 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField] private SceneController sceneController;
+    public float LevelTime => levelTime;
+    private float totalTime, levelTime;
     private bool timerPaused;
 
-    public float LevelTime { get; private set; }
+  
     public float TotalTime { get; private set; }
 
     private static ScoreManager instance;
@@ -35,7 +37,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (timerPaused) return;
 
-        LevelTime += Time.deltaTime;
+        levelTime += Time.deltaTime;
     }
 
     private void StartTimer()
@@ -50,7 +52,7 @@ public class ScoreManager : MonoBehaviour
         TotalTime += LevelTime;
     }
 
-    private void ResetLevelTimer() => LevelTime = 0f;
+    private void ResetLevelTimer() => levelTime = 0f;
 
     private void ResetTotalTimer() => TotalTime = 0f;
 

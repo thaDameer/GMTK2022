@@ -181,6 +181,10 @@ public class CubeController : MonoBehaviour
             return;
         if (IsTileRestricted(dir)) { currentTile.TileAction(); return; }
 
+        if (IsTopInput(dir))
+        {
+            cubePhysics.TryPushDown();
+        }
         if (IsJumpInput(dir))
         {
             PlaySound(jumpSound); 
@@ -190,6 +194,11 @@ public class CubeController : MonoBehaviour
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
         StartCoroutine(RollMovement(anchor, axis));
+    }
+
+    private bool IsTopInput(Vector3 dir)
+    {
+        return dir == Vector3.down;
     }
 
     private bool IsJumpInput(Vector3 dir)
