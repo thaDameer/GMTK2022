@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,14 @@ public class HandOfDeath : MonoBehaviour
     public GameObject StartPos, EndPos, Player, HandModel;
 
     public float levelProgression;
-
+    private bool levelStarted;
 
     void Start()
     {
-        StartPos = GameManager.Instance.startPos;
-        EndPos = GameManager.Instance.endPos;
+        EventBroker.Instance.OnStartLevel += StartMoving;
+
+        StartPos = GameManager.Instance.StartPos;
+        EndPos = GameManager.Instance.EndPos;
         Player = GameObject.FindWithTag("Player"); 
 
         transform.position = StartPos.transform.position;
@@ -30,12 +33,13 @@ public class HandOfDeath : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!levelStarted) return;
         
         if (transform.position.z >= EndPos.transform.position.z) return;
         transform.Translate(Vector3.forward * velocity * Time.deltaTime);
 
         levelProgression = transform.position.z / levelLength;
-        GameManager.Instance.handProgression = levelProgression;
+        GameManager.Instance.HandProgression = levelProgression;
 
         if (Player == null) return;
 
@@ -44,18 +48,19 @@ public class HandOfDeath : MonoBehaviour
         var horizontalSpeed = 1;
         transform.position = Vector3.MoveTowards(transform.position, xVec, horizontalSpeed * Time.deltaTime);
 
-        if (GameManager.Instance.playerDead)
+        if (GameManager.Instance.PlayerDead)
         {
             ScaleUpHand(); 
         }
     }
 
+    private void StartMoving() => levelStarted = true;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
-            GameManager.Instance.playerDead = true;
-            GameManager.Instance.OnPlayerDead(); 
+            EventBroker.Instance.OnFailLevel?.Invoke(); 
             velocity = 0; 
         }
     }
@@ -79,4 +84,8 @@ public class HandOfDeath : MonoBehaviour
         velocity = vel;
     }
 
+    private void OnDestroy()
+    {
+        EventBroker.Instance.OnStartLevel -= StartMoving;
+    }
 }
