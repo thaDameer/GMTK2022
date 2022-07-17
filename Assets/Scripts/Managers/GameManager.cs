@@ -62,8 +62,10 @@ public class GameManager : MonoBehaviour
         
         if (player == null) player = GameObject.FindWithTag("Player").GetComponent<CubeController>();
         if (hand == null) hand = GameObject.FindWithTag("Hand").GetComponent<HandOfDeath>();
-        if (player && hand) 
+        if (player && hand)
+        {
             StartCoroutine(StartLevelCountdown(countdownTime));
+        }
         
         UIManager.Instance.HideLevelClearScreen(); 
         UIManager.Instance.HideGameOverScreen();

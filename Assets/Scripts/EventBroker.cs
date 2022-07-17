@@ -9,6 +9,7 @@ public class EventBroker {
 
     public Func<DiceSide> OnDiceSideChanged;
     public Action<float> OnLevelCountdownStart;
+    public Action OnGameplaySceneLoaded;
     public Action OnStartLevel;
     public Action OnCompleteLevel;
     public Action OnFailLevel;

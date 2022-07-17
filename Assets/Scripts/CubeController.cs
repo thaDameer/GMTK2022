@@ -255,8 +255,12 @@ public class CubeController : MonoBehaviour
         if (currentTile is Jam)
         {
             var pos = transform.position; 
-            transform.DOShakePosition(0.2f, dir, 10, 15, false, true).SetEase(Ease.OutQuint);
-            transform.position = pos; 
+            transform.DOShakePosition(0.2f, dir, 10, 0, false, true).SetEase(Ease.OutQuint).OnComplete(() =>
+            {
+                transform.position = pos;   
+            }
+            );
+           
             return true;
         }
         else return false;
