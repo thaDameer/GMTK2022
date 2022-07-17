@@ -1902,7 +1902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b19f1a721f1644f860075b61da24ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelTime: 0
+  elapsedTime: 0
   handProgression: 0
   playerDead: 0
   levelCleared: 0
@@ -2206,19 +2206,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9773665
+      value: 0.97736645
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.21131863
+      value: 0.21131861
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.009736473
+      value: -0.009738716
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.002105145
+      value: 0.0021056295
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020532566627, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_Follow
@@ -2234,19 +2234,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9773665
+      value: 0.97736645
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.21131863
+      value: 0.21131861
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.009736473
+      value: -0.009738716
       objectReference: {fileID: 0}
     - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.002105145
+      value: 0.0021056295
       objectReference: {fileID: 0}
     - target: {fileID: 9173875021235099598, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_BindingMode
@@ -2260,22 +2260,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 606887513448873619, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
   m_PrefabInstance: {fileID: 606887512584097067}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &1277502225
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277502220}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &1333459828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3388,17 +3372,9 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 606887513448873617, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 606887513448873619, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
       propertyPath: m_Name
       value: CubeController
-      objectReference: {fileID: 0}
-    - target: {fileID: 606887513448873619, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
-      propertyPath: m_TagString
-      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 606887513448873622, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
       propertyPath: m_RootOrder
@@ -3443,10 +3419,6 @@ PrefabInstance:
     - target: {fileID: 606887513448873622, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2058655571757295153, guid: d8d06c1603ee6ce4980727fa80e6415d, type: 3}
-      propertyPath: jumpHeight
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
