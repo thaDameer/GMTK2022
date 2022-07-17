@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using Tymski;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [CreateAssetMenu]
 public class SceneController : ScriptableObject
 {
-    [SerializeField] private SceneAsset[] scenes;
+    [SerializeField] private SceneReference[] scenes;
 
     private int activeIndex;
 
@@ -15,7 +15,7 @@ public class SceneController : ScriptableObject
     {
         activeIndex++;
         if (IndexIsValid(activeIndex))
-            SceneManager.LoadScene(scenes[activeIndex].name);
+            SceneManager.LoadScene(scenes[activeIndex].ScenePath);
         else
             LoadMainMenu();
     }
@@ -29,15 +29,15 @@ public class SceneController : ScriptableObject
         }
         
         activeIndex = index;
-        SceneManager.LoadScene(scenes[index].name);
+        SceneManager.LoadScene(scenes[index].ScenePath);
     }
 
-    public void RestartActiveLevel() => SceneManager.LoadScene(scenes[activeIndex].name);
+    public void RestartActiveLevel() => SceneManager.LoadScene(scenes[activeIndex].ScenePath);
 
     public void LoadMainMenu()
     {
         activeIndex = 0;
-        SceneManager.LoadScene(scenes[0].name);
+        SceneManager.LoadScene(scenes[0].ScenePath);
     }
 
     public void Quit()
