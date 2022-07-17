@@ -419,7 +419,7 @@ Transform:
   - {fileID: 7146415166830711498}
   - {fileID: 1592423524627162214}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &606887513448873617
 BoxCollider:
@@ -476,7 +476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -40
   jumpHeight: 2
-  pushDownForce: 5
+  pushDownForce: 3
 --- !u!54 &2380701015913537639
 Rigidbody:
   m_ObjectHideFlags: 0

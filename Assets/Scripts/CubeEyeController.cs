@@ -103,6 +103,7 @@ public class CubeEyeController : MonoBehaviour
 
     private void OnDestroy()
     {
-        StopCoroutine(animation);
+        if(animation!=null)
+            StopCoroutine(animation);
     }
 }
