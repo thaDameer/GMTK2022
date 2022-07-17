@@ -243,7 +243,11 @@ public class CubeController : MonoBehaviour
                 currentTile = tile;
                 currentTile.EnterTile();
                 TryExecuteOnEnterTileAction(currentTile);
-                if (currentTile is RotateTile) transform.DORotate(Vector3.up*90, 0.4f, RotateMode.WorldAxisAdd);
+                if (currentTile is RotateTile)
+                {
+                    isMoving = true;
+                    transform.DORotate(Vector3.up*90, 0.4f, RotateMode.WorldAxisAdd).OnComplete((() => isMoving = false));
+                }
                 if (currentTile is GoalTile) AscentToParadice(); 
             }
             else currentTile = null;
