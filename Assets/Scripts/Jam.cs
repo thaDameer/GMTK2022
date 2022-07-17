@@ -18,8 +18,8 @@ public class Jam : BaseTile
     public override void TileAction()
     {
         Stickiness -= 1;
-        AudioSource.PlayClipAtPoint(stickClip, transform.position);
-        particles.Emit(ParticleCount); 
+        if(stickClip != null) AudioSource.PlayClipAtPoint(stickClip, transform.position);
+        if(particles != null) particles.Emit(ParticleCount); 
         if (Stickiness <= 0) OnTileComplete.Invoke();
     }
 

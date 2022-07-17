@@ -654,7 +654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b19f1a721f1644f860075b61da24ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelTime: 0
+  elapsedTime: 0
   handProgression: 0
   playerDead: 0
   levelCleared: 0
@@ -889,9 +889,73 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0011603981
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.1299996
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.024121
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.97580516
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.21098103
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.05607449
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020532566626, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.012123991
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020532566627, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 1810368180653389210}
+    - target: {fileID: 9173875020532566627, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 1810368180653389210}
     - target: {fileID: 9173875020532566627, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 3.1364605
+      value: 3.1097257
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0011603981
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.1299996
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.024121
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.97580516
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.21098103
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.05607449
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173875020626794665, guid: eca5ea572351b43fe825f558bb1908a3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.012123991
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -1283,6 +1347,10 @@ PrefabInstance:
     - target: {fileID: 863161987783257071, guid: eb6d7c11e47491a4b90ec06295ee847a, type: 3}
       propertyPath: m_Name
       value: GoalTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 863161987783257071, guid: eb6d7c11e47491a4b90ec06295ee847a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -1688,7 +1756,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb4afc40342f1a4eb4d9843c04072e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
   movementSpeed: 10
+  deathBedHeight: -10
   one: {fileID: 3699407288329322393}
   two: {fileID: 2028714259755551540}
   three: {fileID: 8016492085787435437}
@@ -1696,9 +1768,10 @@ MonoBehaviour:
   five: {fileID: 129586715399470120}
   six: {fileID: 9106403634624307499}
   isActive: 1
-  landSound: {fileID: 8300000, guid: 7efd58f42845a794aacf7a02c6940732, type: 3}
+  landSound: {fileID: 8300000, guid: ae22733c54a53fc48a070703fac99f3b, type: 3}
   preSound: {fileID: 8300000, guid: 67bb408138a2a3346a4123e993e3ddb3, type: 3}
   jumpSound: {fileID: 8300000, guid: ba039f4b467a6fe4d8abf930cdc6019b, type: 3}
+  range: 0.5
 --- !u!1 &1810368180653389215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,6 +1824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -40
   jumpHeight: 10
+  pushDownForce: 5
 --- !u!1 &1868638439381775693
 GameObject:
   m_ObjectHideFlags: 0
