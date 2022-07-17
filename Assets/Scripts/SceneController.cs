@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using Tymski;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,13 +8,18 @@ public class SceneController : ScriptableObject
 {
     [SerializeField] private SceneReference[] scenes;
 
-    private int activeIndex;
-
+    private int GetActiveIndex()
+    {
+        var currentScenePath = SceneManager.GetActiveScene().path;
+        return scenes.TakeWhile(scene => scene.ScenePath != currentScenePath).Count();
+    }
+    
     public void LoadNext()
     {
-        activeIndex++;
-        if (IndexIsValid(activeIndex))
-            SceneManager.LoadScene(scenes[activeIndex].ScenePath);
+        var nextIndex = GetActiveIndex() + 1;
+        
+        if (IndexIsValid(nextIndex))
+            SceneManager.LoadScene(scenes[nextIndex].ScenePath);
         else
             LoadMainMenu();
     }
@@ -28,22 +32,14 @@ public class SceneController : ScriptableObject
             return;
         }
         
-        activeIndex = index;
         SceneManager.LoadScene(scenes[index].ScenePath);
     }
 
-    public void RestartActiveLevel() => SceneManager.LoadScene(scenes[activeIndex].ScenePath);
+    public void RestartActiveLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-    public void LoadMainMenu()
-    {
-        activeIndex = 0;
-        SceneManager.LoadScene(scenes[0].ScenePath);
-    }
+    public void LoadMainMenu() => SceneManager.LoadScene(scenes[0].ScenePath);
 
-    public void Quit()
-    {
-        Application.Quit(); 
-    }
+    public void Quit() => Application.Quit();
 
-    private bool IndexIsValid(int index) => index <= scenes.Length;
+    private bool IndexIsValid(int index) => index < scenes.Length;
 }

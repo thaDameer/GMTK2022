@@ -13,14 +13,27 @@ public class Jam : BaseTile
     public override void EnterTile()
     {
         Stickiness = (int)UnityEngine.Random.Range(1, 6);
+        PlayAudio();
+        EmitParticles(); 
     }
 
     public override void TileAction()
     {
         Stickiness -= 1;
-        if(stickClip != null) AudioSource.PlayClipAtPoint(stickClip, transform.position);
-        if(particles != null) particles.Emit(ParticleCount); 
+        EmitParticles();
+        PlayAudio(); 
+         
         if (Stickiness <= 0) OnTileComplete.Invoke();
+    }
+
+    public void EmitParticles()
+    {
+        if (particles != null) particles.Emit(ParticleCount);
+    }
+
+    public void PlayAudio()
+    {
+        if (stickClip != null) AudioSource.PlayClipAtPoint(stickClip, transform.position);
     }
 
 }
