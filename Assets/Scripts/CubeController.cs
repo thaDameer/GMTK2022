@@ -181,6 +181,10 @@ public class CubeController : MonoBehaviour
             return;
         if (IsTileRestricted(dir)) { currentTile.TileAction(); return; }
 
+        if (IsTopInput(dir))
+        {
+            cubePhysics.TryPushDown();
+        }
         if (IsJumpInput(dir))
         {
             PlaySound(jumpSound); 
@@ -190,6 +194,11 @@ public class CubeController : MonoBehaviour
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
         var axis = Vector3.Cross(Vector3.up, dir);
         StartCoroutine(RollMovement(anchor, axis));
+    }
+
+    private bool IsTopInput(Vector3 dir)
+    {
+        return dir == Vector3.down;
     }
 
     private bool IsJumpInput(Vector3 dir)
@@ -235,6 +244,7 @@ public class CubeController : MonoBehaviour
                 currentTile.EnterTile();
                 TryExecuteOnEnterTileAction(currentTile);
                 if (currentTile is RotateTile) transform.DORotate(Vector3.up*90, 0.4f, RotateMode.WorldAxisAdd);
+                if (currentTile is GoalTile) AscentToParadice(); 
             }
             else currentTile = null;
         }
@@ -248,7 +258,7 @@ public class CubeController : MonoBehaviour
             case Jam jam:
                 break;
             case RotateTile oil:
-                AscentToParadice();
+                
                 break;
             case NumberTile numberTile:
                 var diceSide = GetDiceSideByDirection(Vector3.down);
@@ -274,9 +284,9 @@ public class CubeController : MonoBehaviour
 
     private void AscentToParadice()
     {
+        cubePhysics.TurnOffGravity(); 
         transform.DOBlendableMoveBy(new Vector3(0, 10, 0), 10, false);
-        transform.DOBlendableRotateBy(new Vector3(0, 1080, 0), 10, RotateMode.WorldAxisAdd);
-        Debug.Log("ASCNED"); 
+        transform.DOBlendableRotateBy(new Vector3(0, 1080*3, 0), 10*3, RotateMode.WorldAxisAdd); 
     }
 
     private void ClearTile()
