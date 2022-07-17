@@ -9,14 +9,25 @@ public class RotateTile : BaseTile
     public int ParticleCount = 10; 
     public override void EnterTile()
     {
-        
+        PlayAudio();
+        EmitParticles(); 
     }
 
     public override void TileAction()
     {
-        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position);
-        if (particles != null) particles.Emit(ParticleCount); 
+        PlayAudio();
+        EmitParticles(); 
         OnTileComplete.Invoke(); 
+    }
+
+    public void EmitParticles()
+    {
+        if (particles != null) particles.Emit(ParticleCount);
+    }
+
+    public void PlayAudio()
+    {
+        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position);
     }
 
 }
