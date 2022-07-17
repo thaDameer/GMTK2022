@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class InputUIView : MonoBehaviour
 {
     [SerializeField] private Image leftTab, rightTab;
-    [SerializeField] private TMP_Text leftText, rightText, jumpText;
+    [SerializeField] private TMP_Text leftText, rightText;
     
     
     void Awake()
@@ -21,10 +21,9 @@ public class InputUIView : MonoBehaviour
         CubeController.OnDiceSideChanged -= UpdatedDiceView;    
     }
 
-    private void UpdatedDiceView(DiceSide left, DiceSide jump, DiceSide right)
+    private void UpdatedDiceView(DiceSide left, DiceSide right)
     {
         leftText.text = left.Number.ToString();
-        jumpText.text = jump.Number.ToString();
         rightText.text = right.Number.ToString();
     }
     

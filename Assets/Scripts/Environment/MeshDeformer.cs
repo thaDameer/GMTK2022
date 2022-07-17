@@ -35,7 +35,7 @@ public class MeshDeformer : MonoBehaviour
         }
     }
 
-    private void Triggered(DiceSide side1, DiceSide jump, DiceSide side2)
+    private void Triggered(DiceSide side1, DiceSide side2)
     {
         isTriggered = true;
     }

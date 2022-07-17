@@ -46,9 +46,4 @@ public class UIManager : MonoBehaviour
     {
         ClearScreen.SetActive(false); 
     }
-
-    public void UpdateTimer()
-    {
-        throw new System.NotImplementedException();
-    }
 }
