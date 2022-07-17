@@ -4,6 +4,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField] private SceneController sceneController;
+    public float LevelTime => levelTime;
     private float totalTime, levelTime;
     private bool timerPaused;
     
