@@ -10,6 +10,7 @@ public class CubeController : MonoBehaviour
 {
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private float movementSpeed = 10f;
+    [SerializeField] private float deathBedHeight = -10f;
 
     private DiceSide currentLeft, currentRight, currentJump;
 
@@ -35,8 +36,25 @@ public class CubeController : MonoBehaviour
 
     private void Update()
     {
-        if (!isActive) return; 
+        if (!isActive) return;
+        if (OnDeathBed()) return;
+        
         CubeMovement();
+    }
+
+    private bool OnDeathBed()
+    {
+        if (transform.position.y > deathBedHeight) return false;
+        
+        GameManager.Instance.OnPlayerDead();
+        StartCoroutine(DestroyAfterSeconds(3f));
+        return true;
+    }
+
+    private IEnumerator DestroyAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Destroy(gameObject);
     }
 
     [Range(0,1)]public float range = 0.5f;
@@ -44,30 +62,8 @@ public class CubeController : MonoBehaviour
     {
         RaycastHit hit;
         var pathDir = dir;
-        Debug.DrawRay(transform.position, pathDir * 0.55f, Color.magenta, 1);
-        var boxPosition = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y,
-            transform.position.z + dir.z);
-        Collider[] hitColliders = Physics.OverlapBox(boxPosition, transform.localScale, Quaternion.identity, 6);
 
-        if (hitColliders.Length > 0)
-        {
-            foreach (var collider in hitColliders)
-            {
-                var obstacle = collider.GetComponent<IObstacle>();
-                if (obstacle != null)
-                    obstacle.Collide(boxPosition);
-
-                if (collider.gameObject.tag == "Obstacle")
-                {
-                    Debug.Log(collider.gameObject.name);
-                    DoBlockAnimation(dir);
-                    //Maybe check for different obstacles
-                    return true;
-                }
-            }
-        }
-   
-        if (Physics.BoxCast(transform.position,Vector3.one, pathDir, out hit,transform.rotation, range))
+        if (Physics.Raycast(transform.position, pathDir, out hit, range))
         {
             var obstacle = hit.collider.GetComponent<IObstacle>();
             if (obstacle != null)
@@ -199,13 +195,17 @@ public class CubeController : MonoBehaviour
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
     {
         SetIsMoving(true);
-        AudioSource.PlayClipAtPoint(preSound, transform.position); 
+        bool diceIsRolling = axis != Vector3.zero;
+        if (diceIsRolling)
+            AudioSource.PlayClipAtPoint(preSound, transform.position);
+        
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
             transform.RotateAround(anchor, axis, movementSpeed);
             yield return new WaitForSeconds(0.01f);
         }
-        AudioSource.PlayClipAtPoint(landSound, transform.position); 
+        if(diceIsRolling)
+            AudioSource.PlayClipAtPoint(landSound, transform.position); 
         GetRelativeNumberPosition();
         UpdateTile();
         SetIsMoving(false);

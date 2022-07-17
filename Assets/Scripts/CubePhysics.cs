@@ -22,6 +22,9 @@ public class CubePhysics : MonoBehaviour
         CalculateGravity();
         CheckJump();
         CalculateMovement();
+
+        if (transform.position.y < -500f)
+            PausePhysics = true;
     }
 
     public void TryJump()

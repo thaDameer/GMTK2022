@@ -5,12 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Scenes/CubeControllerScene.unity
-    guid: 461a7c0ca0cbe3144a093d365d6cdde7
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: a5ca1c544260f8b469fa30b0d992320d
