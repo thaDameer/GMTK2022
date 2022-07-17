@@ -496,7 +496,7 @@ MonoBehaviour:
   five: {fileID: 1206897427991246628}
   six: {fileID: 8003971195532028455}
   isActive: 1
-  landSound: {fileID: 8300000, guid: 7efd58f42845a794aacf7a02c6940732, type: 3}
+  landSound: {fileID: 8300000, guid: ae22733c54a53fc48a070703fac99f3b, type: 3}
   preSound: {fileID: 8300000, guid: 67bb408138a2a3346a4123e993e3ddb3, type: 3}
   jumpSound: {fileID: 8300000, guid: ba039f4b467a6fe4d8abf930cdc6019b, type: 3}
   range: 0.5
