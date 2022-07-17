@@ -196,7 +196,7 @@ public class CubeController : MonoBehaviour
         SetIsMoving(true);
         bool diceIsRolling = axis != Vector3.zero;
         if (diceIsRolling)
-            AudioSource.PlayClipAtPoint(preSound, transform.position);
+            PlaySound(preSound);
         
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
@@ -204,7 +204,7 @@ public class CubeController : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         if(diceIsRolling)
-            AudioSource.PlayClipAtPoint(landSound, transform.position); 
+            PlaySound(landSound); 
         GetRelativeNumberPosition();
         UpdateTile();
         SetIsMoving(false);
