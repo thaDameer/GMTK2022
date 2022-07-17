@@ -244,6 +244,7 @@ public class CubeController : MonoBehaviour
                 currentTile.EnterTile();
                 TryExecuteOnEnterTileAction(currentTile);
                 if (currentTile is RotateTile) transform.DORotate(Vector3.up*90, 0.4f, RotateMode.WorldAxisAdd);
+                if (currentTile is GoalTile) AscentToParadice(); 
             }
             else currentTile = null;
         }
@@ -257,7 +258,7 @@ public class CubeController : MonoBehaviour
             case Jam jam:
                 break;
             case RotateTile oil:
-                AscentToParadice();
+                
                 break;
             case NumberTile numberTile:
                 var diceSide = GetDiceSideByDirection(Vector3.down);
@@ -283,9 +284,9 @@ public class CubeController : MonoBehaviour
 
     private void AscentToParadice()
     {
+        cubePhysics.TurnOffGravity(); 
         transform.DOBlendableMoveBy(new Vector3(0, 10, 0), 10, false);
-        transform.DOBlendableRotateBy(new Vector3(0, 1080, 0), 10, RotateMode.WorldAxisAdd);
-        Debug.Log("ASCNED"); 
+        transform.DOBlendableRotateBy(new Vector3(0, 1080*3, 0), 10*3, RotateMode.WorldAxisAdd); 
     }
 
     private void ClearTile()
