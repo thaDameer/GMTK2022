@@ -91,7 +91,7 @@ public class CubeEyeController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(rnd.Next(0, maxWaitDuration));
-        if (rnd.Next(0, 1) > 0.5)
+        if (rnd.Next(0, 2) == 1)
         {
             animation = StartCoroutine(MoveEye());
         }
