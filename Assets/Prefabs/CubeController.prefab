@@ -381,6 +381,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb4afc40342f1a4eb4d9843c04072e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
   movementSpeed: 10
   one: {fileID: 2460460640911930517}
   two: {fileID: 960621732383768632}
@@ -389,6 +392,10 @@ MonoBehaviour:
   five: {fileID: 1206897427991246628}
   six: {fileID: 8003971195532028455}
   isActive: 1
+  landSound: {fileID: 8300000, guid: 7efd58f42845a794aacf7a02c6940732, type: 3}
+  preSound: {fileID: 8300000, guid: 67bb408138a2a3346a4123e993e3ddb3, type: 3}
+  jumpSound: {fileID: 8300000, guid: ba039f4b467a6fe4d8abf930cdc6019b, type: 3}
+  range: 0.5
 --- !u!114 &2058655571757295153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -40
   jumpHeight: 2
+  pushDownForce: 5
 --- !u!54 &2380701015913537639
 Rigidbody:
   m_ObjectHideFlags: 0
