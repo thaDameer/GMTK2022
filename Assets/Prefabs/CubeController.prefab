@@ -419,7 +419,7 @@ Transform:
   - {fileID: 7146415166830711498}
   - {fileID: 1592423524627162214}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &606887513448873617
 BoxCollider:
@@ -461,6 +461,7 @@ MonoBehaviour:
   landSound: {fileID: 8300000, guid: 5d59f7f0fd014fc4fbf9f8151b2b2c65, type: 3}
   preSound: {fileID: 8300000, guid: 67bb408138a2a3346a4123e993e3ddb3, type: 3}
   jumpSound: {fileID: 8300000, guid: ba039f4b467a6fe4d8abf930cdc6019b, type: 3}
+  walkVolume: 0.498
 --- !u!114 &2058655571757295153
 MonoBehaviour:
   m_ObjectHideFlags: 0

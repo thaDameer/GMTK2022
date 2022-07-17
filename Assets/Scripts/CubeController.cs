@@ -25,7 +25,10 @@ public class CubeController : MonoBehaviour
 
     ITile currentTile;
 
-    [SerializeField] private AudioClip landSound, preSound, jumpSound; 
+    [SerializeField] private AudioClip landSound, preSound, jumpSound;
+    [Range(0, 1)]
+    [SerializeField] private float walkVolume; 
+    
 
     private void Start()
     {
@@ -244,6 +247,9 @@ public class CubeController : MonoBehaviour
         {
             case Jam jam:
                 break;
+            case RotateTile oil:
+                AscentToParadice();
+                break;
             case NumberTile numberTile:
                 var diceSide = GetDiceSideByDirection(Vector3.down);
                 numberTile.TryMatchDiceSide(diceSide);
@@ -266,6 +272,13 @@ public class CubeController : MonoBehaviour
         else return false;
     }
 
+    private void AscentToParadice()
+    {
+        transform.DOBlendableMoveBy(new Vector3(0, 10, 0), 10, false);
+        transform.DOBlendableRotateBy(new Vector3(0, 1080, 0), 10, RotateMode.WorldAxisAdd);
+        Debug.Log("ASCNED"); 
+    }
+
     private void ClearTile()
     {
         currentTile = null;
@@ -273,7 +286,7 @@ public class CubeController : MonoBehaviour
     
     private void PlaySound(AudioClip clip)
     {
-        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position); 
+        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position, walkVolume); 
     }
     private void OnDestroy()
     {
