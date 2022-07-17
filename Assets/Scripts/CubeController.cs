@@ -277,8 +277,7 @@ public class CubeController : MonoBehaviour
     {
         cubePhysics.TurnOffGravity(); 
         transform.DOBlendableMoveBy(new Vector3(0, 10, 0), 10, false);
-        transform.DOBlendableRotateBy(new Vector3(0, 1080*3, 0), 10*3, RotateMode.WorldAxisAdd);
-        Debug.Log("ASCNED"); 
+        transform.DOBlendableRotateBy(new Vector3(0, 1080*3, 0), 10*3, RotateMode.WorldAxisAdd); 
     }
 
     private void ClearTile()
