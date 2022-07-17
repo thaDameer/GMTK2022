@@ -25,7 +25,10 @@ public class CubeController : MonoBehaviour
 
     ITile currentTile;
 
-    [SerializeField] private AudioClip landSound, preSound, jumpSound; 
+    [SerializeField] private AudioClip landSound, preSound, jumpSound;
+    [Range(0, 1)]
+    [SerializeField] private float walkVolume; 
+    
 
     private void Start()
     {
@@ -232,6 +235,7 @@ public class CubeController : MonoBehaviour
                 currentTile.EnterTile();
                 TryExecuteOnEnterTileAction(currentTile);
                 if (currentTile is RotateTile) transform.DORotate(Vector3.up*90, 0.4f, RotateMode.WorldAxisAdd);
+                if (currentTile is GoalTile) AscentToParadice(); 
             }
             else currentTile = null;
         }
@@ -243,6 +247,9 @@ public class CubeController : MonoBehaviour
         switch (iTile)
         {
             case Jam jam:
+                break;
+            case RotateTile oil:
+                
                 break;
             case NumberTile numberTile:
                 var diceSide = GetDiceSideByDirection(Vector3.down);
@@ -266,6 +273,13 @@ public class CubeController : MonoBehaviour
         else return false;
     }
 
+    private void AscentToParadice()
+    {
+        cubePhysics.TurnOffGravity(); 
+        transform.DOBlendableMoveBy(new Vector3(0, 10, 0), 10, false);
+        transform.DOBlendableRotateBy(new Vector3(0, 1080*3, 0), 10*3, RotateMode.WorldAxisAdd); 
+    }
+
     private void ClearTile()
     {
         currentTile = null;
@@ -273,7 +287,7 @@ public class CubeController : MonoBehaviour
     
     private void PlaySound(AudioClip clip)
     {
-        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position); 
+        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position, walkVolume); 
     }
     private void OnDestroy()
     {

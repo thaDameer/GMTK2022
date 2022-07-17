@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class LevelCountdownView : MonoBehaviour
 {
-    [SerializeField] private AudioSource countdownSound;
+    [SerializeField] private AudioClip readySound, goSound;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private TMP_Text Text;
     [SerializeField] private CanvasGroup _canvasGroup;
 
@@ -34,11 +35,11 @@ public class LevelCountdownView : MonoBehaviour
         _canvasGroup.DOFade(1, 0.2f);
         Text.text = "Ready?!";
         Text.transform.localScale = Vector3.zero;
-        PlayCountdownSound();
+        PlayCountdownSound(readySound);
        
         Text.transform.localScale = Vector3.zero;
         yield return Text.transform.DOScale(Vector3.one, 1).SetEase(Ease.OutQuint).WaitForCompletion();
-        PlayCountdownSound();
+        PlayCountdownSound(goSound);
         Text.text = "ROLL TO PARADICE!!";
         Text.transform.localScale = Vector3.zero;
         yield return Text.transform.DOScale(Vector3.one, 1).SetEase(Ease.OutQuint).WaitForCompletion();
@@ -48,9 +49,11 @@ public class LevelCountdownView : MonoBehaviour
         _canvasGroup.DOFade(0, 0.2f).OnComplete((() => gameObject.SetActive(false)));
     }
 
-    private void PlayCountdownSound()
+    private void PlayCountdownSound(AudioClip audioClip)
     {
-        if(countdownSound)
-            countdownSound.Play();
+        if (audioSource && audioClip)
+        {
+            audioSource.PlayOneShot(audioClip);
+        }
     }
 }
