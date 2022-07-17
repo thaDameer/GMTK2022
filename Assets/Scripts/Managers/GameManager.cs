@@ -60,10 +60,12 @@ public class GameManager : MonoBehaviour
         StartPos = GameObject.FindWithTag("Start");
         EndPos = GameObject.FindWithTag("End");
         
-        if (player == null) player = GameObject.FindWithTag("Player")?.GetComponent<CubeController>();
-        if (hand == null) hand = GameObject.FindWithTag("Hand")?.GetComponent<HandOfDeath>();
-        if (player && hand) 
+        if (player == null) player = GameObject.FindWithTag("Player").GetComponent<CubeController>();
+        if (hand == null) hand = GameObject.FindWithTag("Hand").GetComponent<HandOfDeath>();
+        if (player && hand)
+        {
             StartCoroutine(StartLevelCountdown(countdownTime));
+        }
         
         UIManager.Instance.HideLevelClearScreen(); 
         UIManager.Instance.HideGameOverScreen();

@@ -986,7 +986,7 @@ RectTransform:
   - {fileID: 1470944320}
   - {fileID: 6934115443938002502}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1069,6 +1069,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverScreen: {fileID: 2009236799}
   ClearScreen: {fileID: 1851792244}
+  timerLabel: {fileID: 0}
+  restart: {fileID: 286781920}
+  next: {fileID: 1427973839}
 --- !u!1 &2798972549988371812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,5 +1634,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb81f9ad8ad7f6e438d82403a60e7036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countdownSound: {fileID: 0}
   Text: {fileID: 2717123376511308715}
   _canvasGroup: {fileID: 7799433626380735843}
