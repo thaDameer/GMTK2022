@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private int level;
     public GameObject startPos { get; set; }
     public GameObject endPos { get; set; }
-    public float levelTime;
+    public float elapsedTime;
     public float handProgression;
 
     public bool playerDead;
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        levelTime += Time.deltaTime;
+        elapsedTime += Time.deltaTime;
     }
 
     private void OnDestroy()
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        levelTime = 0;
+        elapsedTime = 0;
         score = 0;
         playerDead = false;
         levelCleared = false;
@@ -69,10 +69,26 @@ public class GameManager : MonoBehaviour
         endPos = GameObject.FindWithTag("End");
         if (Player == null) Player = GameObject.FindWithTag("Player").GetComponent<CubeController>();
         if (Hand == null) Hand = GameObject.FindWithTag("Hand").GetComponent<HandOfDeath>(); 
+        if(Player && Hand)
+            StartTimer();
         UIManager.Instance.HideLevelClearScreen(); 
         UIManager.Instance.HideGameOverScreen();
     }
 
+    private void StartTimer()
+    {
+        StartCoroutine(Timer());
+    }
+
+    private IEnumerator Timer()
+    {
+        while (!playerDead)
+        {
+            elapsedTime += Time.deltaTime;
+            UIManager.Instance.UpdateTimer();
+            yield return null;
+        }
+    }
     private void Initialize()
     {
 

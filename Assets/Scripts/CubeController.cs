@@ -2,17 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(CubePhysics))]
 public class CubeController : MonoBehaviour
 {
+    [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private float movementSpeed = 10f;
 
-    private DiceSide currentLeft, currentRight;
+    private DiceSide currentLeft, currentRight, currentJump;
 
     [SerializeField] private DiceSide one, two, three, four, five, six;
-    public delegate void DiceSideChanged(DiceSide left, DiceSide right);
+    public delegate void DiceSideChanged(DiceSide left,DiceSide jump, DiceSide right);
     public static event DiceSideChanged OnDiceSideChanged;
 
     private CubePhysics cubePhysics;
@@ -21,6 +23,8 @@ public class CubeController : MonoBehaviour
     public bool isActive = true; 
 
     ITile currentTile;
+
+    [SerializeField] private AudioClip landSound, preSound, jumpSound; 
 
     private void Start()
     {
@@ -35,12 +39,35 @@ public class CubeController : MonoBehaviour
         CubeMovement();
     }
 
+    [Range(0,1)]public float range = 0.5f;
     private bool IsPathBlocked(Vector3 dir)
     {
         RaycastHit hit;
         var pathDir = dir;
         Debug.DrawRay(transform.position, pathDir * 0.55f, Color.magenta, 1);
-        if (Physics.Raycast(transform.position, pathDir, out hit, 0.55f))
+        var boxPosition = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y,
+            transform.position.z + dir.z);
+        Collider[] hitColliders = Physics.OverlapBox(boxPosition, transform.localScale, Quaternion.identity, 6);
+
+        if (hitColliders.Length > 0)
+        {
+            foreach (var collider in hitColliders)
+            {
+                var obstacle = collider.GetComponent<IObstacle>();
+                if (obstacle != null)
+                    obstacle.Collide(boxPosition);
+
+                if (collider.gameObject.tag == "Obstacle")
+                {
+                    Debug.Log(collider.gameObject.name);
+                    DoBlockAnimation(dir);
+                    //Maybe check for different obstacles
+                    return true;
+                }
+            }
+        }
+   
+        if (Physics.BoxCast(transform.position,Vector3.one, pathDir, out hit,transform.rotation, range))
         {
             var obstacle = hit.collider.GetComponent<IObstacle>();
             if (obstacle != null)
@@ -48,6 +75,7 @@ public class CubeController : MonoBehaviour
 
             if (hit.collider.gameObject.tag == "Obstacle")
             {
+                Debug.Log(hit.collider.gameObject.name);
                 DoBlockAnimation(dir);
                 //Maybe check for different obstacles
                 return true;
@@ -103,11 +131,13 @@ public class CubeController : MonoBehaviour
     {
         var leftDiceSide = GetDiceSideByDirection(Vector3.left);
         var rightDiceSide = GetDiceSideByDirection(Vector3.right);
-        if (currentLeft != leftDiceSide || rightDiceSide != currentRight)
+        var jumpSide = GetDiceSideByDirection(Vector3.down);
+        if (currentLeft != leftDiceSide || rightDiceSide != currentRight || currentJump != jumpSide)
         {
             currentLeft = leftDiceSide;
             currentRight = rightDiceSide;
-            OnDiceSideChanged?.Invoke(currentLeft, currentRight);
+            currentJump = jumpSide;
+            OnDiceSideChanged?.Invoke(currentLeft, currentJump, currentRight);
         }
     }
 
@@ -153,6 +183,7 @@ public class CubeController : MonoBehaviour
         if (IsJumpInput(dir))
         {
             cubePhysics.TryJump();
+            AudioSource.PlayClipAtPoint(jumpSound, transform.position); 
             return;
         }
         var anchor = transform.position + (Vector3.down + dir) * 0.5f;
@@ -168,12 +199,13 @@ public class CubeController : MonoBehaviour
     private IEnumerator RollMovement(Vector3 anchor, Vector3 axis)
     {
         SetIsMoving(true);
-
+        AudioSource.PlayClipAtPoint(preSound, transform.position); 
         for (int i = 0; i < 90 / movementSpeed; i++)
         {
             transform.RotateAround(anchor, axis, movementSpeed);
             yield return new WaitForSeconds(0.01f);
         }
+        AudioSource.PlayClipAtPoint(landSound, transform.position); 
         GetRelativeNumberPosition();
         UpdateTile();
         SetIsMoving(false);
@@ -220,7 +252,9 @@ public class CubeController : MonoBehaviour
     {
         if (currentTile is Jam)
         {
+            var pos = transform.position; 
             transform.DOShakePosition(0.2f, dir, 10, 15, false, true).SetEase(Ease.OutQuint);
+            transform.position = pos; 
             return true;
         }
         else return false;
