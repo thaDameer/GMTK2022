@@ -37,6 +37,12 @@ public class SceneController : ScriptableObject
 
     public void RestartActiveLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
+    public void LoadFirstLevel()
+    {
+        EventBroker.Instance.OnGameReset?.Invoke();
+        SceneManager.LoadScene(scenes[1].ScenePath);
+    }
+    
     public void LoadMainMenu() => SceneManager.LoadScene(scenes[0].ScenePath);
 
     public void Quit() => Application.Quit();

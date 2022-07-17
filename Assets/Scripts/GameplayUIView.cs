@@ -6,14 +6,12 @@ public class GameplayUIView : MonoBehaviour
 {
     private void Awake()
     {
-        EventBroker.Instance.OnGameplaySceneLoaded += HideUI;
         EventBroker.Instance.OnStartLevel += ShowUI;
         EventBroker.Instance.OnLevelCountdownStart += HideUI;
     }
 
     private void OnDestroy()
     {
-        EventBroker.Instance.OnGameplaySceneLoaded -= HideUI;
         EventBroker.Instance.OnStartLevel -= ShowUI;
         EventBroker.Instance.OnLevelCountdownStart -= HideUI;
     }
