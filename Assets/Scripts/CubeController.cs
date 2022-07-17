@@ -94,6 +94,7 @@ public class CubeController : MonoBehaviour
     }
     private void CubeMovement()
     {
+        if(isMoving) return;
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             var relativeDir = GetRelativeDirection(one.Direction);
