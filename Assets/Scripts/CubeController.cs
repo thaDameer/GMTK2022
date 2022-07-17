@@ -19,7 +19,7 @@ public class CubeController : MonoBehaviour
     public static event DiceSideChanged OnDiceSideChanged;
 
     private CubePhysics cubePhysics;
-    private bool isMoving;
+    private bool isMoving, levelStarted;
 
     public bool isActive = true; 
 
@@ -30,23 +30,26 @@ public class CubeController : MonoBehaviour
     private void Start()
     {
         BaseTile.OnTileComplete += ClearTile;
+        EventBroker.Instance.OnStartLevel += StartLevel;
         cubePhysics = GetComponent<CubePhysics>();
         GetRelativeNumberPosition();
     }
 
     private void Update()
     {
-        if (!isActive) return;
+        if (!isActive || !levelStarted) return;
         if (OnDeathBed()) return;
         
         CubeMovement();
     }
 
+    private void StartLevel() => levelStarted = true;
+
     private bool OnDeathBed()
     {
         if (transform.position.y > deathBedHeight) return false;
         
-        GameManager.Instance.OnPlayerDead();
+        EventBroker.Instance.OnFailLevel?.Invoke();
         StartCoroutine(DestroyAfterSeconds(3f));
         return true;
     }
@@ -287,5 +290,6 @@ public class CubeController : MonoBehaviour
     private void OnDestroy()
     {
         BaseTile.OnTileComplete -= ClearTile;
+        EventBroker.Instance.OnStartLevel -= StartLevel;
     }
 }

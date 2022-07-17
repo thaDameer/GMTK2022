@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject GameOverScreen;
     [SerializeField] private GameObject ClearScreen;
+    [SerializeField] private TextMeshProUGUI timerLabel;
     public static UIManager Instance
     {
         get
@@ -47,8 +49,8 @@ public class UIManager : MonoBehaviour
         ClearScreen.SetActive(false); 
     }
 
-    public void UpdateTimer()
+    public void UpdateTimer(float time)
     {
-        throw new System.NotImplementedException();
+        timerLabel.text = time.ToString("00.0");
     }
 }

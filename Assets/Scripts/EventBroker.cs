@@ -8,4 +8,8 @@ public class EventBroker {
     public static EventBroker Instance => _instance ??= new EventBroker();
 
     public Func<DiceSide> OnDiceSideChanged;
+    public Action<float> OnLevelCountdownStart;
+    public Action OnStartLevel;
+    public Action OnCompleteLevel;
+    public Action OnFailLevel;
 }
