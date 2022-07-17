@@ -35,16 +35,10 @@ public class FallingPlatform : MonoBehaviour
            
     }
 
-    //IEnumerator ShakeRoutine()
-    //{
-
-
-
-    //}
 
     public void Shake()
     {
-        transform.Translate(Vector3.right * 0.1f * Mathf.Sin(8 * Mathf.PI * Timer));
+        transform.Translate(Vector3.right * 0.05f * Mathf.Sin(8 * Mathf.PI * Timer));
     }
 
 }
